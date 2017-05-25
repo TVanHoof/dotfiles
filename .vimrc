@@ -1,5 +1,4 @@
 set number
-set relativenumber
 set autoindent
 set cursorline
 set showcmd
@@ -13,6 +12,8 @@ set noswapfile
 
 syntax on
 
+nnoremap <leader>v :tabnew $MYVIMRC<CR>
+nnoremap <leader>lv	:source $MYVIMRC<CR>
 nnoremap D d$
 
 au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
