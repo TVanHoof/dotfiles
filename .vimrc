@@ -5,6 +5,7 @@ set cursorline
 set showcmd
 set showmode
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set list
 set ruler
 set tabstop=2
 set foldenable
@@ -19,11 +20,6 @@ nnoremap D d$
 
 au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
 au VimLeave * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
-
-if exists('+colorcolumn')
-	autocmd BufEnter, FocusGained, VimEnter, WinEnter * if autocmds#should_colorcolumn() | let &l:colorcolumn='+' . join(range(0,254), ',+') | endif
-	autocmd FocusLost, WinLeave * if autocmds#should_colorcolumn() | let &l:colorcolumn=join(range(0,254), ',') | endif
-endif
 
 au FocusLost * :set number
 au FocusGained * :set relativenumber
