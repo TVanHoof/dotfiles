@@ -31,5 +31,5 @@ nnoremap <C-l>	<c-w>l
 
 autocmd Filetype c inoremap { 				{<CR>}<Esc>ka<CR><Backspace>
 autocmd Filetype c inoremap /* 				/**/<Esc>hi
-autocmd Filetype c nmap <Leader>c	<Esc>%ky$j%A/*<Esc>p
-
+autocmd Filetype c nmap <Leader>c			<Esc>%ky$j%A/*<Esc>p
+autocmd Filetype c nmap <Leader>f			<Esc>%kf(hyiwj%A/*<Esc>p
