@@ -4,8 +4,6 @@ set autoindent
 set cursorline
 set showcmd
 set showmode
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
-set list
 set ruler
 set tabstop=2
 set foldenable
@@ -13,6 +11,9 @@ set foldenable
 set noswapfile
 
 syntax on
+set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set list
+highlight SpecialKey ctermfg=0 guifg=gray
 
 nnoremap <leader>v :tabnew $MYVIMRC<CR>
 nnoremap <leader>lv	:source $MYVIMRC<CR>
