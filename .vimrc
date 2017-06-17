@@ -24,6 +24,21 @@ set list
 highlight NonText ctermfg=0 guifg=gray
 highlight SpecialKey ctermfg=0 guifg=gray
 
+"statusline test
+if has('statusline')
+	set laststatus=2
+	highlight currentTime ctermfg=white ctermbg=255
+	set statusline = ""
+	"set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ 
+	set statusline+=%<%f%m\ 																	"show the filename of the window
+
+	set statusline+=%=\ Line:%l\/%L\ %P												"show the linenumbers and the percentage
+	
+	set statusline+=\❮%#currentTime#\ 
+	set statusline+=%=%{strftime('%Y/%b/%d\ %a\ %H:%M\ %p')}\  "show date & time in the statusline
+endif
+
+
 "shortcuts for editing my .vimrc
 nnoremap <leader>ve	:tabnew $MYVIMRC<CR>
 nnoremap <leader>vl	:source $MYVIMRC<CR>
