@@ -13,6 +13,7 @@ set noswapfile
 
 "set the colors for the text (listchars will be darker)
 syntax on
+set bg=dark
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set list
 highlight NonText ctermfg=0 guifg=gray
