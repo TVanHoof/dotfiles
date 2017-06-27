@@ -11,8 +11,9 @@ set foldenable
 
 set noswapfile
 
-"remap leader because of keyboard layout
 let mapleader=","
+nnoremap :	;
+nnoremap ;	:
 
 "set the colors for the text (listchars will be darker)
 syntax on
