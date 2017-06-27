@@ -23,8 +23,8 @@ highlight NonText ctermfg=0 guifg=gray
 highlight SpecialKey ctermfg=0 guifg=gray
 
 "shortcuts for editing my .vimrc
-nnoremap <leader>ev	:tabnew $MYVIMRC<CR>
-nnoremap <leader>lv	:source $MYVIMRC<CR>
+nnoremap <leader>ve	:tabnew $MYVIMRC<CR>
+nnoremap <leader>vl	:source $MYVIMRC<CR>
 
 "added for continuity with C
 nnoremap D d$
