@@ -10,6 +10,7 @@ set tabstop=2
 set foldenable
 
 set noswapfile
+set path+=**
 
 let mapleader=","
 nnoremap :	;
