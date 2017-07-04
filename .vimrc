@@ -27,14 +27,16 @@ highlight SpecialKey ctermfg=0 guifg=gray
 "statusline test
 if has('statusline')
 	set laststatus=2
-	highlight currentTime ctermfg=white ctermbg=255
+	highlight stdColor				ctermfg=128		ctermbg=0	cterm=bold
+	highlight currentTime			ctermfg=white ctermbg=255
 	set statusline = ""
+	set statusline+=%#stdColor#
 	"set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ 
 	set statusline+=%<%f%m\ 																	"show the filename of the window
 
 	set statusline+=%=\ Line:%l\/%L\ %P												"show the linenumbers and the percentage
-	
-	set statusline+=\❮%#currentTime#\ 
+
+	set statusline+=\%#currentTime#\ 
 	set statusline+=%=%{strftime('%Y/%b/%d\ %a\ %H:%M\ %p')}\  "show date & time in the statusline
 endif
 
