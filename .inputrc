@@ -1,0 +1,11 @@
+#rc file for readline (editor for cli commands)
+
+#<alt><shift>-				puts the last argument of the last command
+#<alt><shift>t				swap 2 last arguments
+
+#<ctrl>r							reverse history search
+
+set expand-tilde on
+set bell-style visible
+
+"\C-n": menu-complete

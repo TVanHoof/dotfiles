@@ -4,3 +4,4 @@
 #except for this files
 !.gitignore
 !.vimrc
+!.inputrc
