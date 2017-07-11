@@ -29,16 +29,17 @@ if has('statusline')
 	set laststatus=2
 	highlight pathToFile			ctermfg=darkgray		ctermbg=0	cterm=bold
 	highlight stdColor				ctermfg=white		ctermbg=0
-	highlight currentTime			ctermfg=white		ctermbg=255
 	set statusline = ""
 	set statusline+=%#stdColor#
 	"set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ 
 	set statusline+=%<%#pathToFile#%{getcwd()}\/%#stdColor#%f%m\ 	"show the filename of the window
 
 	set statusline+=%=\ Line:%l\/%L\ %P												"show the linenumbers and the percentage
-
-	set statusline+=\%#currentTime#\ 
-	set statusline+=%=%{strftime('%Y/%b/%d\ %a\ %H:%M\ %p')}\  "show date & time in the statusline
+	if !exists('$TMUX')
+		highlight currentTime			ctermfg=white		ctermbg=255
+		set statusline+=\%#currentTime#\ 
+		set statusline+=%=%{strftime('%Y/%b/%d\ %a\ %H:%M\ %p')}\  "show date & time in the statusline
+	endif
 endif
 
 
@@ -68,7 +69,7 @@ nnoremap <C-k>	<c-w>k
 nnoremap <C-l>	<c-w>l
 
 "commands for C programming
-autocmd Filetype c inoremap { 				{<CR>}<Esc>ka<CR><Backspace>
+autocmd Filetype c iabbrev { 					{}<left>
 autocmd Filetype c inoremap /* 				/**/<Esc>hi
 autocmd Filetype c nmap <Leader>c			<Esc>%ky$j%A/*<Esc>p
 autocmd Filetype c nmap <Leader>f			<Esc>%kf(hyiwj%A/*<Esc>p
