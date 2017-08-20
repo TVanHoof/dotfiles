@@ -8,6 +8,10 @@ set showmode
 set ruler
 set tabstop=2
 set foldenable
+set autoread
+
+set wildmenu
+set wildignore=*.o,*.a,*.hex,*.lib,*git
 
 set noswapfile
 set path+=**
@@ -45,10 +49,7 @@ endif
 
 "shortcuts for editing my .vimrc
 nnoremap <leader>ve	:tabnew $MYVIMRC<CR>
-nnoremap <leader>vl	:source $MYVIMRC<CR>
-
-"added for continuity with C
-nnoremap D d$
+nnoremap <leader>vr	:source $MYVIMRC<CR>
 
 "map capslock temporarely to esc (do this only in vim)
 au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
