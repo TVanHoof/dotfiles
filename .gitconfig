@@ -1,0 +1,12 @@
+[user]
+	name = Thomas Van Hoof
+	email = thomasvhoof@gmail.com
+[core]
+	editor = vim
+[push]
+	default = matching
+[alias]
+	co = checkout
+	ci = commit
+	br = branch
+	st = status
