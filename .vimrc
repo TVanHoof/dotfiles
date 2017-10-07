@@ -69,6 +69,11 @@ nnoremap <C-j>	<c-w>k
 nnoremap <C-k>	<c-w>k
 nnoremap <C-l>	<c-w>l
 
+cnoremap bb b#
+
+filetype plugin on
+filetype indent on
+
 "commands for C programming
 autocmd Filetype c iabbrev { 					{}<left>
 autocmd Filetype c inoremap /* 				/**/<Esc>hi
