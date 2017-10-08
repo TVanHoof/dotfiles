@@ -7,5 +7,6 @@
 
 set expand-tilde on
 set bell-style visible
+set colored-stats on
 
-"\C-n": menu-complete
+#"\C-n": menu-complete
