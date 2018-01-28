@@ -8,5 +8,7 @@
 set expand-tilde on
 set bell-style visible
 set colored-stats on
+set completion-ignore-case on
+set show-all-if-unmodified on
 
 #"\C-n": menu-complete
