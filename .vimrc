@@ -1,33 +1,96 @@
 "set default values
-set nocompatible
-set number
-set relativenumber
-set magic
-set autoindent
-set cursorline
-set showcmd
-set showmode
-set ruler
-set expandtab
-set shiftwidth=2
-set tabstop=2
-set foldenable
-set autoread
-set scrolloff=3
+set nocompatible          " using vim, not vi. Lets use it
+let mapleader=" "
+
+" ------------------
+" set default values
+" ------------------
+set number                " show line nubers
+set relativenumber        " show relative line numbers
+
+set magic                 " use magic when searching with regex
+set autoindent            " try to autoindent automatically
+set autoread              " keep file up to date
+
+" visualisation of position
+set cursorline            " show underline for current cursor
+set showcmd               " show command (only if not fully completed)
+set showmode              " show the current mode we are in
+set ruler                 " show where we are in the file
+
+" tab-related
+set expandtab             " use spaces when <tab> is pressed
+set shiftwidth=4          " X spaces to indent
+set shiftround            " round to multiples of shiftwidth
+set tabstop=4             " tab key indents X spaces at a time
+
+set foldenable            " enable folding
+set scrolloff=3           " keep space between cursor and top/bottom of the screen
 set backspace=indent,eol,start
 
+ " searching
+set nohlsearch            " default no highlight when searching
+set incsearch             " search when typing command
+
+" autocompletion
 set wildmenu
+set wildmode=list:full
 set wildignore=*.o,*.a,*.hex,*.lib,*git
+set completeopt=menu,longest,preview
 
-set noswapfile
-set path+=**
+set noswapfile            " do not create a swap file
+set path+=**              " search in all subdirectories
 
-let mapleader=" "
+" just more convinient
 nnoremap :  ;
 nnoremap ;  :
+vnoremap > >gv
+vnoremap < <gv
+cabb bb b#
+imap <silent> <Down>  <C-o>gj
+imap <silent> <Up>    <C-o>gk
+nmap <silent> <Down>  <C-o>gj
+nmap <silent> <Up>    <C-o>gk
+vnoremap <c-c>  "*y
+inoremap <c-v>  <C-r>*
+map Y y$
 
-vnoremap <C-c>	"*y
-inoremap <C-v>	<C-r>*
+
+" Useful leader mappings
+nnoremap <leader>ve :tabnew $MYVIMRC<CR>
+nnoremap <leader>vr :source $MYVIMRC<CR>
+
+nnoremap <leader>h  :set invhlsearch<CR>
+
+filetype plugin on
+filetype indent on
+autocmd FileType c  :setlocal cindent
+
+augroup commenting
+  autocmd!
+  autocmd Filetype c  nnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype c  vnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype py nnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype py vnoremap <buffer> <leader>c I//<Esc>
+augroup end
+
+" moving between windows made easy
+nnoremap <C-h>  <c-w>h
+nnoremap <C-j>  <c-w>j
+nnoremap <C-k>  <c-w>k
+nnoremap <C-l>  <c-w>l
+
+" Emacs style editing on command-line
+cnoremap <C-A>        <Home>
+cnoremap <C-E>        <End>
+cnoremap <C-B>        <Left>
+cnoremap <C-F>        <Right>
+cnoremap <C-D>        <Del>
+cnoremap <C-N>        <Down>
+cnoremap <C-P>        <Up>
+cnoremap <A-B>        <S-Left>
+cnoremap <A-F>        <S-Right>
+
 
 "set the colors for the text (listchars will be darker)
 syntax on
@@ -55,15 +118,6 @@ if has('statusline')
   endif
 endif
 
-
-"shortcuts for editing my .vimrc
-nnoremap <leader>ve :tabnew $MYVIMRC<CR>
-nnoremap <leader>vr :source $MYVIMRC<CR>
-
-"map capslock temporarely to esc (do this only in vim)
-"au VimEnter * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
-"au VimLeave * !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
-
 "visualize current focus
 highlight colorcolumn ctermbg=darkgrey guibg=lightgrey
 au FocusLost,WinLeave * let &l:colorcolumn=join(range(1,128),",")
@@ -72,16 +126,6 @@ au FocusLost,WinLeave * :setlocal norelativenumber
 au BufEnter,FocusGained,VimEnter,WinEnter * :setlocal relativenumber
 au VimResized * execute "normal! \<c-w>="
 
-"moving between windows made easy
-nnoremap <C-h>  <c-w>h
-nnoremap <C-j>  <c-w>j
-nnoremap <C-k>  <c-w>k
-nnoremap <C-l>  <c-w>l
-
-cabb bb b#
-
-filetype plugin on
-filetype indent on
 
 "commands for C programming
 autocmd Filetype c iabbrev {          {}<left>
