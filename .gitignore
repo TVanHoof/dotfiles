@@ -3,6 +3,7 @@
 
 #except for this files
 !.gitignore
+!.i3/*
 !.vimrc
 !.inputrc
 !.tmux.conf

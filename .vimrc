@@ -112,7 +112,7 @@ if has('statusline')
   
   set statusline+=%=\ Line:%l\/%L\ %P                           "show the linenumbers and the percentage
   if !exists('$TMUX')
-    highlight currentTime   ctermfg=white   ctermbg=255
+    highlight currentTime   ctermfg=red   ctermbg=black
     set statusline+=\%#currentTime#\ 
     set statusline+=%=%{strftime('%Y/%b/%d\ %a\ %H:%M')}\   "show date & time in the statusline
   endif
