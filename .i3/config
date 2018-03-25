@@ -17,8 +17,8 @@ set $mod Mod4
 set $term st
 
 # names of workspaces
-set $workspace1 "1:"
-set $workspace2 "2:"
+set $workspace1 "1: "
+set $workspace2 "2: "
 set $workspace3 "3:"
 set $workspace4 "4:"
 set $workspace5 "5:"
@@ -26,7 +26,7 @@ set $workspace6 "6:"
 set $workspace7 "7:"
 set $workspace8 "8:"
 set $workspace9 "9:"
-set $workspace10 "10:♬ "
+set $workspace10 "10: ♬ "
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below. ISO 10646 = Unicode
@@ -53,6 +53,7 @@ bindsym $mod+d exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # create usefull shortcuts
+bindsym $mod+ctrl+Escape    exec python ~/workspace/power_menu/power_menu.py
 bindsym $mod+w  exec chromium-browser   #mnemonic:    web
 bindsym $mod+f  exec $term -e ranger    #mnemonic:    files
 bindsym $mod+m  exec spotify            #mnemonic:    music
@@ -62,13 +63,17 @@ assign [class="Chromium-browser"] $workspace2
 
 for_window [class="^.*"] border pixel 1
 for_window [class="Gui.py"] floating enable
+for_window [class="DidItChange"] floating enable
 for_window [class="Power_menu.py"] floating enable
 for_window [class="Xfce4-notifyd"] floating enable
 
 # Pulse Audio controls
-bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
-bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+#bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 1 +5% #increase sound volume
+#bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 1 -5% #decrease sound volume
+#bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute 0 toggle # mute sound
+bindsym XF86AudioRaiseVolume exec --no-startup-id amixer set Master 1+ #increase sound volume
+bindsym XF86AudioLowerVolume exec --no-startup-id amixer set Master 1- #decrease sound volume
+bindsym XF86AudioMute exec --no-startup-id amixew set Master toggle    # mute sound
 
 # Sreen brightness controls
 bindsym XF86MonBrightnessUp exec xbacklight -inc 20 # increase screen brightness
@@ -191,6 +196,12 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
+bindsym $mod+ctrl+h     resize shrink width 10 px or 10 ppt
+bindsym $mod+ctrl+j     resize grow height 10 px or 10 ppt
+bindsym $mod+ctrl+k     resize shrink height 10 px or 10 ppt
+bindsym $mod+ctrl+l     resize grow width 10 px or 10 ppt
+
+
 # ---------- VISUAL STUFF ------------
 
 
@@ -235,4 +246,4 @@ bar {
 
 exec --no-startup-id compton -i 0.8 -f
 exec nm-applet
-exec_always --no_startup-id feh --bg-scale ~/Afbeeldingen/15624_8b203.jpg
+exec_always --no-startup-id feh --bg-scale /home/thomas/Afbeeldingen/Viltrus-electronics.jpg
