@@ -12,6 +12,8 @@ set magic                 " use magic when searching with regex
 set autoindent            " try to autoindent automatically
 set autoread              " keep file up to date
 
+set term=screen-256color
+
 " visualisation of position
 set cursorline            " show underline for current cursor
 set showcmd               " show command (only if not fully completed)
