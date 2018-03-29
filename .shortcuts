@@ -1,0 +1,30 @@
+alias f="ranger"   #mnemonic => files
+alias q="exit"     #mnemonic => quit
+
+function moveto {
+    mv $2 $1
+}
+
+# Documents
+DOC="~/Documenten"
+alias gd="cd $DOC"
+alias td="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $DOC; fi"
+alias md="moveto $DOC"
+
+# Afbeeldingen/Images
+IMG="~/Afbeeldingen"
+alias gi="cd $IMG"
+alias ti="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $IMG; fi"
+alias mi="moveto $IMG"
+
+# Muziek/Music
+MUS="~/Muziek":
+alias gm="cd $MUS"
+alias tm="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $MUS; fi"
+alias mm="moveto $MUS"
+
+# Workspace
+WS="~/workspace"
+alias gw="cd $WS"
+alias tw="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $WS; fi"
+alias mw="moveto $WS"

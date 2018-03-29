@@ -4,6 +4,7 @@
 #except for this files
 !.gitignore
 !.i3/*
+!.shortcuts
 !.vimrc
 !.inputrc
 !.tmux.conf
