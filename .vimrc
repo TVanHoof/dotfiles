@@ -41,7 +41,9 @@ set completeopt=menu,longest,preview
 set noswapfile            " do not create a swap file
 set path+=**              " search in all subdirectories
 
-" just more convinient
+set mouse=a
+
+" just more convenient
 nnoremap :  ;
 nnoremap ;  :
 vnoremap > >gv
