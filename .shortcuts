@@ -1,3 +1,4 @@
+alias e="$EDITOR"  #mnemonic => edit
 alias f="ranger"   #mnemonic => files
 alias q="exit"     #mnemonic => quit
 
@@ -9,36 +10,48 @@ function copyto {
     cp $2 $1
 }
 
+function GenerateShortcuts {
+    alias g$1="cd $2"
+    alias t$1="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $2; fi"
+    alias m$1="moveto $2"
+    alias y$1="copyto $2"
+}
+
 # Home
-alias gh="cd $HOME"
-alias td="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $HOME; fi"
-alias md="moveto $HOME"
-alias yh="copyto $HOME"
+# generate  gh => go to home
+#           th => new tab in home (tmux)
+#           mh => move to home
+#           yh => copy to home
+GenerateShortcuts h $HOME
 
 # Documents
 DOC="~/Documenten"
-alias gd="cd $DOC"
-alias td="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $DOC; fi"
-alias md="moveto $DOC"
-alias yd="copyto $DOC"
+GenerateShortcuts d $DOC
+# generate  gd => go to documents
+#           td => new tab in documents (tmux)
+#           md => move to documents
+#           yd => copy to documents
 
 # Afbeeldingen/Images
 IMG="~/Afbeeldingen"
-alias gi="cd $IMG"
-alias ti="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $IMG; fi"
-alias mi="moveto $IMG"
-alias yi="copyto $IMG"
+GenerateShortcuts i $IMG
+# generate  gi => go to images
+#           ti => new tab in images (tmux)
+#           mi => move to images
+#           yi => copy to images
 
 # Muziek/Music
-MUS="~/Muziek":
-alias gm="cd $MUS"
-alias tm="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $MUS; fi"
-alias mm="moveto $MUS"
-alias ym="copyto $MUS"
+MUS="~/Muziek"
+GenerateShortcuts m $MUS
+# generate  gm => go to music
+#           tm => new tab in music (tmux)
+#           mm => move to music
+#           ym => copy to music
 
 # Workspace
 WS="~/workspace"
-alias gw="cd $WS"
-alias tw="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $WS; fi"
-alias mw="moveto $WS"
-alias yw="copyto $WS"
+GenerateShortcuts w $WS
+# generate  gw => go to workspace
+#           tw => new tab in workspace (tmux)
+#           mw => move to workspace
+#           yw => copy to workspace
