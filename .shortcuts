@@ -5,26 +5,40 @@ function moveto {
     mv $2 $1
 }
 
+function copyto {
+    cp $2 $1
+}
+
+# Home
+alias gh="cd $HOME"
+alias td="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $HOME; fi"
+alias md="moveto $HOME"
+alias yh="copyto $HOME"
+
 # Documents
 DOC="~/Documenten"
 alias gd="cd $DOC"
 alias td="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $DOC; fi"
 alias md="moveto $DOC"
+alias yd="copyto $DOC"
 
 # Afbeeldingen/Images
 IMG="~/Afbeeldingen"
 alias gi="cd $IMG"
 alias ti="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $IMG; fi"
 alias mi="moveto $IMG"
+alias yi="copyto $IMG"
 
 # Muziek/Music
 MUS="~/Muziek":
 alias gm="cd $MUS"
 alias tm="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $MUS; fi"
 alias mm="moveto $MUS"
+alias ym="copyto $MUS"
 
 # Workspace
 WS="~/workspace"
 alias gw="cd $WS"
 alias tw="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $WS; fi"
 alias mw="moveto $WS"
+alias yw="copyto $WS"
