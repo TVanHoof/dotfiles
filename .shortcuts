@@ -2,6 +2,8 @@ alias e="$EDITOR"  #mnemonic => edit
 alias f="ranger"   #mnemonic => files
 alias q="exit"     #mnemonic => quit
 
+### general shortcutsto go to, create new tab in, move file to & copy file to destination ###
+
 function moveto {
     mv $2 $1
 }
@@ -16,6 +18,10 @@ function GenerateShortcuts {
     alias m$1="moveto $2"
     alias y$1="copyto $2"
 }
+DOC="~/Documenten"
+IMG="~/Afbeeldingen"
+MUS="~/Muziek"
+WS="~/workspace"
 
 # Home
 # generate  gh => go to home
@@ -25,7 +31,6 @@ function GenerateShortcuts {
 GenerateShortcuts h $HOME
 
 # Documents
-DOC="~/Documenten"
 GenerateShortcuts d $DOC
 # generate  gd => go to documents
 #           td => new tab in documents (tmux)
@@ -33,7 +38,6 @@ GenerateShortcuts d $DOC
 #           yd => copy to documents
 
 # Afbeeldingen/Images
-IMG="~/Afbeeldingen"
 GenerateShortcuts i $IMG
 # generate  gi => go to images
 #           ti => new tab in images (tmux)
@@ -41,7 +45,6 @@ GenerateShortcuts i $IMG
 #           yi => copy to images
 
 # Muziek/Music
-MUS="~/Muziek"
 GenerateShortcuts m $MUS
 # generate  gm => go to music
 #           tm => new tab in music (tmux)
@@ -49,9 +52,17 @@ GenerateShortcuts m $MUS
 #           ym => copy to music
 
 # Workspace
-WS="~/workspace"
 GenerateShortcuts w $WS
 # generate  gw => go to workspace
 #           tw => new tab in workspace (tmux)
 #           mw => move to workspace
 #           yw => copy to workspace
+
+### set background easilly ###
+
+function background {
+    ln -sf $1 ~/Afbeeldingen/wallpaper 
+    feh --bg-scale ~/Afbeeldingen/wallpaper
+}
+
+alias bg=background

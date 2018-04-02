@@ -246,4 +246,4 @@ bar {
 
 exec --no-startup-id compton -i 0.8 -f
 exec nm-applet
-exec_always --no-startup-id feh --bg-scale /home/thomas/Afbeeldingen/Viltrus-electronics.jpg
+exec_always --no-startup-id feh --bg-scale /home/thomas/Afbeeldingen/wallpaper
