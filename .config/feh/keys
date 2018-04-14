@@ -1,0 +1,9 @@
+next_img L space
+prev_img H BackSpace
+
+scroll_left h
+scroll_down j
+scroll_up k
+scroll_right l
+
+toggle_fullscreen f

@@ -10,3 +10,5 @@
 !.tmux.conf
 !.gitconfig
 !.xinitrc
+!.config/feh/*
+!.config/ranger/*
