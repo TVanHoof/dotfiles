@@ -57,6 +57,7 @@ nmap <silent> <Down>  <C-o>gj
 nmap <silent> <Up>    <C-o>gk
 vnoremap <c-c>  "*y
 inoremap <c-v>  <C-r>*
+vnoremap <c-v>  c<C-r>*
 map Y y$
 
 
