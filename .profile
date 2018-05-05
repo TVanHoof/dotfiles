@@ -8,6 +8,13 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
+#add the nrf command line tools to the path
+export PATH=$PATH:/usr/local/nrf_command_line_tools/nrfjprog:/usr/local/nrf_command_line_tools/mergehex
+
+export EDITOR=vim
+export TERMINAL=st
+export BROWSER=chromium-browserm
+
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
     # include .bashrc if it exists
@@ -22,10 +29,3 @@ if [ -d "$HOME/.bin" ] ; then
 fi
 
 setxkbmap -option caps:escape
-
-#add the nrf command line tools to the path
-export PATH=$PATH:/usr/local/nrf_command_line_tools/nrfjprog:/usr/local/nrf_command_line_tools/mergehex
-
-export editor=vim
-export terminal=st
-export browser=chromium-browserm

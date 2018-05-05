@@ -74,9 +74,15 @@ alias bg=background
 alias g="git"
 
 function git_gotoTopDirectory {
+    TEMP_OLDPWD=$OLDPWD
     TEMP_PWD=$PWD
     while ! [ -d .git ]; do
         cd ..
+        if [ $PWD == $OLDPWD ]; then
+            cd $TEMP_PWD
+            OLDPWD=$TEMP_OLDPWD
+            return
+        fi
     done
     OLDPWD=TEMP_PWD
 }
