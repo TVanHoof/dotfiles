@@ -2,6 +2,14 @@ alias e="$EDITOR"  #mnemonic => edit
 alias f="ranger"   #mnemonic => files
 alias q="exit"     #mnemonic => quit
 
+function weather {
+    if [ -z $1 ]; then 
+        curl wttr.in; 
+    else 
+        curl wttr.in/~$1; 
+    fi
+}
+
 function cdn {
     mkdir $1 && cd $1
 }
