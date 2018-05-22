@@ -73,10 +73,14 @@ autocmd FileType c  :setlocal cindent
 
 augroup commenting
   autocmd!
-  autocmd Filetype c  nnoremap <buffer> <leader>c I//<Esc>
-  autocmd Filetype c  vnoremap <buffer> <leader>c I//<Esc>
-  autocmd Filetype py nnoremap <buffer> <leader>c I//<Esc>
-  autocmd Filetype py vnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype c    nnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype c    vnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype h    nnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype h    vnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype cpp  nnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype cpp  vnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype py   nnoremap <buffer> <leader>c I#<Esc>
+  autocmd Filetype py   vnoremap <buffer> <leader>c Iu<Esc>
 augroup end
 
 " moving between windows made easy
@@ -137,3 +141,18 @@ autocmd Filetype c iabbrev {          {}<left>
 autocmd Filetype c inoremap /*        /**/<Esc>hi
 autocmd Filetype c nmap <Leader>c     <Esc>%ky$j%A/*<Esc>p
 autocmd Filetype c nmap <Leader>f     <Esc>%kf(hyiwj%A/*<Esc>p
+
+" easy project navigation
+function! GoToTopDirectory(fileInTopDir)
+    let l:start = getcwd()
+    while !filereadable(a:fileInTopDir)
+        let l:prevdir = getcwd()
+        cd ..
+        if l:prevdir == getcwd()
+            execute 'cd' fnameescape(l:start)
+            break
+        endif
+    endwhile
+endfunction
+
+cabb cdt call GoToTopDirectory("tags")
