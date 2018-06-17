@@ -8,11 +8,11 @@ MUS="~/Muziek"
 WS="~/workspace"
 
 # Home
+GenerateShortcuts h $HOME
 # generate  gh => go to home
 #           th => new tab in home (tmux)
 #           mh => move to home
 #           yh => copy to home
-GenerateShortcuts h $HOME
 
 # Documents
 GenerateShortcuts d $DOC
@@ -42,12 +42,10 @@ GenerateShortcuts w $WS
 #           mw => move to workspace
 #           yw => copy to workspace
 
-### set background easilly ###
-
+### general stuff
 alias bg=background
 alias cdn=GoToNewDirectory
 
 ### git ###
 alias g="git"
-
 alias cdt=git_gotoTopDirectory
