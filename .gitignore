@@ -4,6 +4,7 @@
 #except for this files
 !.gitignore
 !.i3/*
+!.bash_functions
 !.shortcuts
 !.profile
 !.vimrc
