@@ -46,30 +46,32 @@ set path+=**              " search in all subdirectories
 set mouse=a
 
 " just more convenient
-nnoremap :  ;
-nnoremap ;  :
-vnoremap > >gv
-vnoremap < <gv
-cabb bb b#
-imap <silent> <Down>  <C-o>gj
-imap <silent> <Up>    <C-o>gk
-nmap <silent> <Down>  <C-o>gj
-nmap <silent> <Up>    <C-o>gk
-vnoremap <c-c>  "*y
-inoremap <c-v>  <C-r>*
-vnoremap <c-v>  c<C-r>*
-map Y y$
-
+nnoremap    :                ;
+nnoremap    ;                :
+vnoremap    >                >gv
+vnoremap    <                <gv
+cabb        bb               b#
+imap        <silent> <Down>  <C-o>gj
+imap        <silent> <Up>    <C-o>gk
+nmap        <silent> <Down>  <C-o>gj
+nmap        <silent> <Up>    <C-o>gk
+vnoremap    <c-c>            "*y
+inoremap    <c-v>            <C-r>*
+vnoremap    <c-v>            c<C-r>*
+map         Y                y$
 
 " Useful leader mappings
 nnoremap <leader>ve :tabnew $MYVIMRC<CR>
 nnoremap <leader>vr :source $MYVIMRC<CR>
 
-nnoremap <leader>h  :set invhlsearch<CR>
+nnoremap <leader>ih  :set invhlsearch<CR>
+nnoremap <leader>il  :set invlist<CR>
+nnoremap <leader>iw  :set invwrap<CR>
 
 filetype plugin on
 filetype indent on
-autocmd FileType c  :setlocal cindent
+autocmd  FileType c      :setlocal cindent
+autocmd  FileType cpp    :setlocal cindent
 
 augroup commenting
   autocmd!
@@ -100,6 +102,13 @@ cnoremap <C-P>        <Up>
 cnoremap <A-B>        <S-Left>
 cnoremap <A-F>        <S-Right>
 
+" diff
+if $diff
+    map [   [c
+    map ]   ]c
+    set scrollbind
+    set syntax=diff
+endif
 
 "set the colors for the text (listchars will be darker)
 syntax on
@@ -135,12 +144,13 @@ au FocusLost,WinLeave * :setlocal norelativenumber
 au BufEnter,FocusGained,VimEnter,WinEnter * :setlocal relativenumber
 au VimResized * execute "normal! \<c-w>="
 
-
 "commands for C programming
-autocmd Filetype c iabbrev {          {}<left>
-autocmd Filetype c inoremap /*        /**/<Esc>hi
-autocmd Filetype c nmap <Leader>c     <Esc>%ky$j%A/*<Esc>p
-autocmd Filetype c nmap <Leader>f     <Esc>%kf(hyiwj%A/*<Esc>p
+autocmd Filetype c inoremap {<CR>         {<CR>}<Esc>O
+autocmd Filetype c inoremap /*<CR>        /*<CR>*/<Esc>O
+autocmd Filetype c inoremap (             ()<Left>
+autocmd Filetype c inoremap <expr> )      strpart(getline('.'), col('.')-1,1) == ")" ? "\<Right>" : ")"
+autocmd Filetype c nmap     <Leader>c     <Esc>%ky$j%A/*<Esc>p
+autocmd Filetype c nmap     <Leader>f     <Esc>%kf(hyiwj%A/*<Esc>p
 
 " easy project navigation
 function! GoToTopDirectory(fileInTopDir)
