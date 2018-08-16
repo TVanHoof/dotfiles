@@ -1,10 +1,9 @@
-"set default values
-set nocompatible          " using vim, not vi. Lets use it
-let mapleader=" "
-
 " ------------------
 " set default values
 " ------------------
+set nocompatible          " using vim, not vi. Lets use it
+let mapleader=" "
+
 set number                " show line nubers
 set relativenumber        " show relative line numbers
 
@@ -30,7 +29,7 @@ set foldenable            " enable folding
 set scrolloff=3           " keep space between cursor and top/bottom of the screen
 set backspace=indent,eol,start
 
- " searching
+" searching
 set nohlsearch            " default no highlight when searching
 set incsearch             " search when typing command
 
@@ -45,7 +44,9 @@ set path+=**              " search in all subdirectories
 
 set mouse=a
 
+" --------------------
 " just more convenient
+" --------------------
 nnoremap    :                ;
 nnoremap    ;                :
 vnoremap    >                >gv
@@ -60,13 +61,23 @@ inoremap    <c-v>            <C-r>*
 vnoremap    <c-v>            c<C-r>*
 map         Y                y$
 
+" ----------------------
 " Useful leader mappings
+" ----------------------
 nnoremap <leader>ve :tabnew $MYVIMRC<CR>
 nnoremap <leader>vr :source $MYVIMRC<CR>
 
 nnoremap <leader>ih  :set invhlsearch<CR>
 nnoremap <leader>il  :set invlist<CR>
 nnoremap <leader>iw  :set invwrap<CR>
+
+"commands for C programming
+autocmd Filetype c inoremap {<CR>         {<CR>}<Esc>O
+autocmd Filetype c inoremap /*<CR>        /*<CR>*/<Esc>O
+autocmd Filetype c inoremap (             ()<Left>
+autocmd Filetype c inoremap <expr> )      strpart(getline('.'), col('.')-1,1) == ")" ? "\<Right>" : ")"
+autocmd Filetype c nmap     <Leader>c     <Esc>%ky$j%A/*<Esc>p
+autocmd Filetype c nmap     <Leader>f     <Esc>%kf(hyiwj%A/*<Esc>p
 
 filetype plugin on
 filetype indent on
@@ -75,23 +86,23 @@ autocmd  FileType cpp    :setlocal cindent
 
 augroup commenting
   autocmd!
-  autocmd Filetype c    nnoremap <buffer> <leader>c I//<Esc>
-  autocmd Filetype c    vnoremap <buffer> <leader>c I//<Esc>
-  autocmd Filetype h    nnoremap <buffer> <leader>c I//<Esc>
-  autocmd Filetype h    vnoremap <buffer> <leader>c I//<Esc>
-  autocmd Filetype cpp  nnoremap <buffer> <leader>c I//<Esc>
-  autocmd Filetype cpp  vnoremap <buffer> <leader>c I//<Esc>
-  autocmd Filetype py   nnoremap <buffer> <leader>c I#<Esc>
-  autocmd Filetype py   vnoremap <buffer> <leader>c Iu<Esc>
+  autocmd Filetype c,cpp,h,hpp  nnoremap <buffer> <leader>c I//<Esc>
+  autocmd Filetype c,cpp,h,hpp  vnoremap <buffer> <leader>c s/**/<Left><Left>P
+  autocmd Filetype py           nnoremap <buffer> <leader>c I#<Esc>
+  autocmd Filetype py           vnoremap <buffer> <leader>c Iu<Esc>
 augroup end
 
+" --------------------------------
 " moving between windows made easy
+" --------------------------------
 nnoremap <C-h>  <c-w>h
 nnoremap <C-j>  <c-w>j
 nnoremap <C-k>  <c-w>k
 nnoremap <C-l>  <c-w>l
 
+" -----------------------------------
 " Emacs style editing on command-line
+" -----------------------------------
 cnoremap <C-A>        <Home>
 cnoremap <C-E>        <End>
 cnoremap <C-B>        <Left>
@@ -102,7 +113,9 @@ cnoremap <C-P>        <Up>
 cnoremap <A-B>        <S-Left>
 cnoremap <A-F>        <S-Right>
 
+" ----
 " diff
+" ----
 if $diff
     map [   [c
     map ]   ]c
@@ -110,7 +123,9 @@ if $diff
     set syntax=diff
 endif
 
-"set the colors for the text (listchars will be darker)
+" ---------
+" GRAPHICAL
+" ---------
 syntax on
 set bg=dark
 set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
@@ -118,7 +133,7 @@ set list
 highlight NonText ctermfg=0 guifg=gray
 highlight SpecialKey ctermfg=0 guifg=gray
 
-"statusline test
+"statusline
 if has('statusline')
   set laststatus=2
   highlight pathToFile      ctermfg=darkgray  ctermbg=0 cterm=bold
@@ -144,25 +159,26 @@ au FocusLost,WinLeave * :setlocal norelativenumber
 au BufEnter,FocusGained,VimEnter,WinEnter * :setlocal relativenumber
 au VimResized * execute "normal! \<c-w>="
 
-"commands for C programming
-autocmd Filetype c inoremap {<CR>         {<CR>}<Esc>O
-autocmd Filetype c inoremap /*<CR>        /*<CR>*/<Esc>O
-autocmd Filetype c inoremap (             ()<Left>
-autocmd Filetype c inoremap <expr> )      strpart(getline('.'), col('.')-1,1) == ")" ? "\<Right>" : ")"
-autocmd Filetype c nmap     <Leader>c     <Esc>%ky$j%A/*<Esc>p
-autocmd Filetype c nmap     <Leader>f     <Esc>%kf(hyiwj%A/*<Esc>p
-
 " easy project navigation
 function! GoToTopDirectory(fileInTopDir)
-    let l:start = getcwd()
+    execute 'cd -'
+    let l:startPrevDir = getcwd()       "restore previous working directory if necessary
+    execute 'cd -'
+    let l:start = getcwd()              "restore cwd if necessary
     while !filereadable(a:fileInTopDir)
         let l:prevdir = getcwd()
         cd ..
         if l:prevdir == getcwd()
+            execute 'cd' fnameescape(l:startPrevDir)
             execute 'cd' fnameescape(l:start)
-            break
+            return
         endif
     endwhile
+    let l:topDir = getcwd();
+    execute 'cd' fnameescape(l:start)
+    execute 'cd' fnameescape(l:topDir)
 endfunction
 
-cabb cdt call GoToTopDirectory("tags")
+cabb cdt    call GoToTopDirectory("tags")
+cabb cdb    cd %:p:h
+cabb lcdb   lcd %:p:h
