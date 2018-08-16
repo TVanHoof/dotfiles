@@ -11,3 +11,12 @@
 	br = branch
 	st = status
   unstage = 'reset HEAD --'
+[merge]
+	tool = vim
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
+[diff]
+	tool = vim
+[difftool]
+	prompt = false
