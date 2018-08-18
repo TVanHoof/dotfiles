@@ -45,6 +45,7 @@ GenerateShortcuts w $WS
 ### general stuff
 alias bg=background
 alias cdn=GoToNewDirectory
+alias brc="vim -p .bashrc .bash_functions .bash_shortcuts .profile; source .profile"
 
 ### git ###
 alias g="git"

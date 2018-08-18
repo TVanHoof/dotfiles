@@ -13,7 +13,7 @@ export PATH=$PATH:/usr/local/nrf_command_line_tools/nrfjprog:/usr/local/nrf_comm
 
 export EDITOR=vim
 export TERMINAL=st
-export BROWSER=chromium-browserm
+export BROWSER=chromium-browser
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
