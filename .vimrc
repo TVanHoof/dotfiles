@@ -73,6 +73,7 @@ nnoremap <leader>iw  :set invwrap<CR>
 
 "commands for C programming
 autocmd Filetype c inoremap {<CR>         {<CR>}<Esc>O
+autocmd Filetype c vnoremap {<CR>         S{<CR>}<Esc>Pk=iB
 autocmd Filetype c inoremap /*<CR>        /*<CR>*/<Esc>O
 autocmd Filetype c inoremap (             ()<Left>
 autocmd Filetype c inoremap <expr> )      strpart(getline('.'), col('.')-1,1) == ")" ? "\<Right>" : ")"
