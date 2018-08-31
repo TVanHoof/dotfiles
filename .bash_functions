@@ -1,7 +1,7 @@
 ### general shortcutsto go to, create new tab in, move file to & copy file to destination ###
 function GenerateShortcuts {
-    alias g$1="cd $2"
-    alias t$1="if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $2; fi"
+    alias g$1="goto $2"
+    alias t$1="tabto $2"
     alias m$1="moveto $2"
     alias y$1="copyto $2"
 }
@@ -12,6 +12,46 @@ function moveto {
 
 function copyto {
     cp $2 $1
+}
+
+function goto {
+    cd $1/$2
+}
+
+function tabto {
+    if [ -z $TMUX ]; then echo 'not in a tmux session'; else tmux new-window -c $1/$2; fi
+}
+
+function Completions_documents {
+    if [ "${#COMP_WORDS[@]}"  != "2" ] ; then
+        return
+    fi
+
+    COMPREPLY=($(compgen -W "$(ls -l ~/Documenten | grep ^d | awk -F' ' '{print $9}')" -- "${COMP_WORDS[1]}"))
+}
+
+function Completions_images {
+    if [ "${#COMP_WORDS[@]}"  != "2" ] ; then
+        return
+    fi
+
+    COMPREPLY=($(compgen -W "$(ls -l ~/Afbeeldingen | grep ^d | awk -F' ' '{print $9}')" -- "${COMP_WORDS[1]}"))
+}
+
+function Completions_music {
+    if [ "${#COMP_WORDS[@]}"  != "2" ] ; then
+        return
+    fi
+
+    COMPREPLY=($(compgen -W "$(ls -l ~/Muziek | grep ^d | awk -F' ' '{print $9}')" -- "${COMP_WORDS[1]}"))
+}
+
+function Completions_workspace {
+    if [ "${#COMP_WORDS[@]}"  != "2" ] ; then
+        return
+    fi
+
+    COMPREPLY=($(compgen -W "$(ls -l ~/workspace | grep ^d | awk -F' ' '{print $9}')" -- "${COMP_WORDS[1]}"))
 }
 
 ### usefull functions

@@ -20,6 +20,8 @@ GenerateShortcuts d $DOC
 #           td => new tab in documents (tmux)
 #           md => move to documents
 #           yd => copy to documents
+complete -F Completions_documents gd
+complete -F Completions_documents td
 
 # Afbeeldingen/Images
 GenerateShortcuts i $IMG
@@ -27,6 +29,8 @@ GenerateShortcuts i $IMG
 #           ti => new tab in images (tmux)
 #           mi => move to images
 #           yi => copy to images
+complete -F Completions_images gi
+complete -F Completions_images ti
 
 # Muziek/Music
 GenerateShortcuts m $MUS
@@ -34,6 +38,8 @@ GenerateShortcuts m $MUS
 #           tm => new tab in music (tmux)
 #           mm => move to music
 #           ym => copy to music
+complete -F Completions_music gm
+complete -F Completions_music tm
 
 # Workspace
 GenerateShortcuts w $WS
@@ -41,11 +47,13 @@ GenerateShortcuts w $WS
 #           tw => new tab in workspace (tmux)
 #           mw => move to workspace
 #           yw => copy to workspace
+complete -F Completions_workspace gw
+complete -F Completions_workspace tw
 
 ### general stuff
 alias bg=background
 alias cdn=GoToNewDirectory
-alias brc="vim -p .bashrc .bash_functions .bash_shortcuts .profile; source .profile"
+alias brc="vim -p ~/.bashrc ~/.bash_functions ~/.bash_shortcuts ~/.profile; source ~/.profile"
 
 ### git ###
 alias g="git"
