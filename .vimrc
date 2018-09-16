@@ -114,6 +114,14 @@ cnoremap <C-P>        <Up>
 cnoremap <A-B>        <S-Left>
 cnoremap <A-F>        <S-Right>
 
+" ----------------------------------
+" Emacs style editing in insert-mode
+" ----------------------------------
+inoremap <C-A>        <Home>
+inoremap <C-E>        <End>
+inoremap <A-F>        <Esc>ea
+inoremap <A-b>        <Esc>bi
+
 " ----
 " diff
 " ----
