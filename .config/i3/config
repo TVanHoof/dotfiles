@@ -97,8 +97,8 @@ bindsym XF86AudioPrev exec playerctl previous
 # ---------- FOCUSED WINDOW ------------
 
 # kill focused window
-bindsym $mod+q       [con_id="__focused__" instance="^(?!dropdown).*$"] kill
-bindsym $mod+Shift+q [con_id="__focused__" instance="^(?!dropdown).*$"] kill
+bindsym $mod+q        kill
+bindsym $mod+Shift+q  kill
 
 # change focus
 bindsym $mod+h      focus left

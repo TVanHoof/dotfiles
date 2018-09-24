@@ -14,8 +14,9 @@ tmux rename-window "notes"
 tmux send-keys "e" C-m
 tmux send-keys "i"
 
-tmux new-window -t $SESSION:2 -n "python"
+tmux new-window -t $SESSION:2
 tmux send-keys "python" C-m
+tmux send-keys C-l
 
 tmux new-window -t $SESSION:3 -n "htop" 
 tmux send-keys "htop" C-m
