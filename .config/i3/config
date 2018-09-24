@@ -53,10 +53,11 @@ bindsym $mod+space exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # create usefull shortcuts
-bindsym $mod+ctrl+Escape    exec python ~/workspace/power_menu/power_menu.py
-bindsym $mod+w              exec chromium-browser   #mnemonic:    web
-bindsym $mod+f              exec $term -e ranger    #mnemonic:    files
-bindsym $mod+m              exec spotify            #mnemonic:    music
+bindsym $mod+ctrl+Escape    exec python ~/workspace/power_menu/power_menu.py        #controlled escape ;-)
+bindsym $mod+w              exec chromium-browser                                   #mnemonic:    web
+bindsym $mod+f              exec $term -e ranger                                    #mnemonic:    files
+bindsym $mod+m              exec spotify                                            #mnemonic:    music
+bindsym $mod+z              [instance="dropdown"] scratchpad show; [instance="dropdown"] move position center
 
 for_window [class="^.*"] border pixel 1
 
@@ -96,8 +97,8 @@ bindsym XF86AudioPrev exec playerctl previous
 # ---------- FOCUSED WINDOW ------------
 
 # kill focused window
-bindsym $mod+q kill
-bindsym $mod+Shift+q kill
+bindsym $mod+q       [con_id="__focused__" instance="^(?!dropdown).*$"] kill
+bindsym $mod+Shift+q [con_id="__focused__" instance="^(?!dropdown).*$"] kill
 
 # change focus
 bindsym $mod+h      focus left
@@ -240,6 +241,12 @@ bar {
 }
 
 # ---------- AUTOBOOT ------------
+
+for_window [instance="dropdown"] floating enable
+# for_window [instance="dropdown"] resize set 800 480
+for_window [instance="dropdown"] move scratchpad
+for_window [instance="dropdown"] border pixel 2
+exec --no-startup-id $term -n dropdown -e tmux_dropdown
 
 exec --no-startup-id compton -i 0.8 -f
 exec nm-applet

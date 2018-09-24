@@ -1,0 +1,24 @@
+#!/bin/bash
+
+SESSION=DropDown
+
+tmux has-session -t $SESSION
+if [ $? -eq 0 ]; then
+    tmux attach-session -t $SESSION
+    exit 0;
+fi
+
+tmux new-session -d -s $SESSION
+
+tmux rename-window "notes"
+tmux send-keys "e" C-m
+tmux send-keys "i"
+
+tmux new-window -t $SESSION:2 -n "python"
+tmux send-keys "python" C-m
+
+tmux new-window -t $SESSION:3 -n "htop" 
+tmux send-keys "htop" C-m
+
+tmux select-window -t $SESSION:2
+tmux attach-session -t $SESSION
