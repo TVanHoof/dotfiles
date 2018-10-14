@@ -8,18 +8,24 @@ if [ $? -eq 0 ]; then
     exit 0;
 fi
 
+# create new session called $SESSION (attach later on)
 tmux new-session -d -s $SESSION
 
+# create pane for making notes (already in insert-mode)
 tmux rename-window "notes"
 tmux send-keys "e" C-m
 tmux send-keys "i"
 
+# create a pane with python running
 tmux new-window -t $SESSION:2
 tmux send-keys "python" C-m
 tmux send-keys C-l
 
+# create a pane with htop running
 tmux new-window -t $SESSION:3 -n "htop" 
 tmux send-keys "htop" C-m
 
+# enable fast switching to notes
+tmux select-window -t $SESSION:1
 tmux select-window -t $SESSION:2
 tmux attach-session -t $SESSION
