@@ -125,6 +125,10 @@ bindsym $mod+backslash split h
 #bindsym $mod+| split h
 bindsym $mod+minus split v
 
+# focus parent container or child
+bindsym $mod+shift+o focus parent
+bindsym $mod+shift+i focus child
+
 # enter fullscreen mode for the focused container
 bindsym $mod+s fullscreen
 
