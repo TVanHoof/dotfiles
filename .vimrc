@@ -67,23 +67,22 @@ map         Y                y$
 nnoremap <leader>ve :tabnew $MYVIMRC<CR>
 nnoremap <leader>vr :source $MYVIMRC<CR>
 
-nnoremap <leader>ih  :set invhlsearch<CR>
-nnoremap <leader>il  :set invlist<CR>
-nnoremap <leader>iw  :set invwrap<CR>
+nnoremap <silent> <leader>ih  :set invhlsearch<CR>
+nnoremap <silent> <leader>il  :set invlist<CR>
+nnoremap <silent> <leader>iw  :set invwrap<CR>
 
 "commands for C programming
-autocmd Filetype c inoremap {<CR>         {<CR>}<Esc>O
-autocmd Filetype c vnoremap {<CR>         S{<CR>}<Esc>Pk=iB
-autocmd Filetype c inoremap /*<CR>        /*<CR>*/<Esc>O
-autocmd Filetype c inoremap (             ()<Left>
-autocmd Filetype c inoremap <expr> )      strpart(getline('.'), col('.')-1,1) == ")" ? "\<Right>" : ")"
-autocmd Filetype c nmap     <Leader>c     <Esc>%ky$j%A/*<Esc>p
-autocmd Filetype c nmap     <Leader>f     <Esc>%kf(hyiwj%A/*<Esc>p
+autocmd Filetype c,cpp inoremap {<CR>         {<CR>}<Esc>O
+autocmd Filetype c,cpp vnoremap {<CR>         S{<CR>}<Esc>Pk=iB
+autocmd Filetype c,cpp inoremap /*<CR>        /*<CR>*/<Esc>O
+autocmd Filetype c,cpp inoremap (             ()<Left>
+autocmd Filetype c,cpp inoremap <expr> )      strpart(getline('.'), col('.')-1,1) == ")" ? "\<Right>" : ")"
+autocmd Filetype c,cpp nmap     <Leader>c     <Esc>%ky$j%A/*<Esc>p
+autocmd Filetype c,cpp nmap     <Leader>f     <Esc>%kf(hyiwj%A/*<Esc>p
 
 filetype plugin on
 filetype indent on
-autocmd  FileType c      :setlocal cindent
-autocmd  FileType cpp    :setlocal cindent
+autocmd  FileType c,cpp     :setlocal cindent
 
 augroup commenting
   autocmd!
