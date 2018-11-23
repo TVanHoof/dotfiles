@@ -71,6 +71,9 @@ nnoremap <silent> <leader>ih  :set invhlsearch<CR>
 nnoremap <silent> <leader>il  :set invlist<CR>
 nnoremap <silent> <leader>iw  :set invwrap<CR>
 
+nnoremap <silent> <leader>]   :cn<CR>zz
+nnoremap <silent> <leader>]   :cp<CR>zz
+
 "commands for C programming
 autocmd Filetype c,cpp inoremap {<CR>         {<CR>}<Esc>O
 autocmd Filetype c,cpp vnoremap {<CR>         S{<CR>}<Esc>Pk=iB
@@ -92,6 +95,24 @@ augroup commenting
   autocmd Filetype py           vnoremap <buffer> <leader>c Iu<Esc>
 augroup end
 
+" --------------------
+" GUI stuff
+" --------------------
+if has('gui')
+    set guioptions-=T
+    set guioptions-=r
+    set guioptions-=L
+    set guioptions-=M
+    set guioptions-=m
+
+    "menu enable and disable
+    nnoremap <leader>me :set guioptions+=m
+    nnoremap <leader>md :set guioptions-=m
+
+    "opem gui vim maximzed
+    au GUIEnter * simalt ~x
+endif
+
 " --------------------------------
 " moving between windows made easy
 " --------------------------------
@@ -99,6 +120,9 @@ nnoremap <C-h>  <c-w>h
 nnoremap <C-j>  <c-w>j
 nnoremap <C-k>  <c-w>k
 nnoremap <C-l>  <c-w>l
+
+cabb <silent> hs        split
+cabb <silent> hsplit    split
 
 " -----------------------------------
 " Emacs style editing on command-line
