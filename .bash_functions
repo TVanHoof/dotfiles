@@ -84,6 +84,6 @@ function git_gotoTopDirectory {
             return
         fi
     done
-    OLDPWD=TEMP_PWD
+    OLDPWD=$TEMP_PWD
 }
 
