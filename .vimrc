@@ -192,25 +192,26 @@ au BufEnter,FocusGained,VimEnter,WinEnter * :setlocal relativenumber
 au VimResized * execute "normal! \<c-w>="
 
 " easy project navigation
-function! GoToTopDirectory(fileInTopDir)
-    execute 'cd -'
+function! GoToTopDirectory(command, fileInTopDir)
+    execute a:command ' -'
     let l:startPrevDir = getcwd()       "restore previous working directory if necessary
-    execute 'cd -'
+    execute a:command ' -'
     let l:start = getcwd()              "restore cwd if necessary
     while !filereadable(a:fileInTopDir)
         let l:prevdir = getcwd()
-        cd ..
+        execute a:command ' ..'
         if l:prevdir == getcwd()
-            execute 'cd' fnameescape(l:startPrevDir)
-            execute 'cd' fnameescape(l:start)
+            execute a:command fnameescape(l:startPrevDir)
+            execute a:command fnameescape(l:start)
             return
         endif
     endwhile
-    let l:topDir = getcwd();
-    execute 'cd' fnameescape(l:start)
-    execute 'cd' fnameescape(l:topDir)
+    let l:topDir = getcwd()
+    execute a:command fnameescape(l:start)
+    execute a:command fnameescape(l:topDir)
 endfunction
 
-cabb cdt    call GoToTopDirectory("tags")
+cabb cdt    call GoToTopDirectory('cd', "tags")
+cabb lcdt   call GoToTopDirectory('lcd', "tags")
 cabb cdb    cd %:p:h
 cabb lcdb   lcd %:p:h
