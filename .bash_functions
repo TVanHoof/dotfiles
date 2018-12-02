@@ -55,14 +55,6 @@ function Completions_workspace {
 }
 
 ### usefull functions
-function weather {
-    if [ -z $1 ]; then 
-        curl wttr.in; 
-    else 
-        curl wttr.in/~$1; 
-    fi
-}
-
 function GoToNewDirectory {
     mkdir -p $1 && cd $1
 }
