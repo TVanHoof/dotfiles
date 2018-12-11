@@ -29,6 +29,10 @@ set foldenable            " enable folding
 set scrolloff=3           " keep space between cursor and top/bottom of the screen
 set backspace=indent,eol,start
 
+" split direction
+set splitbelow
+set splitright
+
 " searching
 set nohlsearch            " default no highlight when searching
 set incsearch             " search when typing command
