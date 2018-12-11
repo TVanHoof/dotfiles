@@ -1,6 +1,7 @@
-alias e="$EDITOR"  #mnemonic => edit
-alias f="ranger"   #mnemonic => files
-alias q="exit"     #mnemonic => quit
+alias e="$EDITOR"               #mnemonic => edit
+alias f="ranger"                #mnemonic => files
+alias q="exit"                  #mnemonic => quit
+alias t="TmuxLoadLocalSettings" #mnemonic => tmux
 
 DOC="~/Documenten"
 IMG="~/Afbeeldingen"

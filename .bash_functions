@@ -64,6 +64,24 @@ function background {
     feh --bg-scale ~/Afbeeldingen/wallpaper
 }
 
+function TmuxLoadLocalSettings {
+    if [ -x .tmux.local ]; then
+        local SHA="$(openssl sha -sha512 .tmux.local)"
+        if ! grep -q "$SHA" ~/.tmux.sha 2> /dev/null; then
+            cat .tmux.local
+            read -p 'REPLY?Run new file (y/n)? '
+            echo
+            if [[ $REPLY =~ ^[yY] ]]; then
+                echo "$SHA" >> ~/.tmux.sha
+                ./.tmux.local
+            fi
+        fi
+    else
+        notify-send --expire-time=2000 "Did not find executable file .tmux.local"
+        tmux
+    fi
+}
+
 ### git functions
 function git_gotoTopDirectory {
     TEMP_OLDPWD=$OLDPWD
