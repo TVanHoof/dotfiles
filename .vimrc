@@ -29,6 +29,13 @@ set foldenable            " enable folding
 set scrolloff=3           " keep space between cursor and top/bottom of the screen
 set backspace=indent,eol,start
 
+" format options
+set formatoptions="tc"    " automatic formatting of text and comments
+set formatoptions+=q      " allow formating with gq (default)
+set formatoptions+=j      " join comments
+set formatoptions+=n      " auto-indenting inside numbered lists
+set nojoinspaces          " do not insert two spaces after a '.', '?' and '!'
+
 " split direction
 set splitbelow
 set splitright
@@ -42,6 +49,8 @@ set wildmenu
 set wildmode=list:full
 set wildignore=*.o,*.a,*.hex,*.lib,*git
 set completeopt=menu,longest,preview
+
+set switchbuf=usetab      " re-use open windows/tabs when switching
 
 set noswapfile            " do not create a swap file
 set path+=**              " search in all subdirectories
@@ -68,13 +77,16 @@ map         Y                y$
 " ----------------------
 " Useful leader mappings
 " ----------------------
+" edit and reload my vimrc
 nnoremap <leader>ve :tabnew $MYVIMRC<CR>
 nnoremap <leader>vr :source $MYVIMRC<CR>
 
+" inverters for commonly used settings
 nnoremap <silent> <leader>ih  :set invhlsearch<CR>
 nnoremap <silent> <leader>il  :set invlist<CR>
 nnoremap <silent> <leader>iw  :set invwrap<CR>
 
+" go to next/previous error and center
 nnoremap <silent> <leader>]   :cn<CR>zz
 nnoremap <silent> <leader>]   :cp<CR>zz
 
@@ -103,6 +115,7 @@ augroup end
 " GUI stuff
 " --------------------
 if has('gui')
+    " turn of what we don't want
     set guioptions-=T
     set guioptions-=r
     set guioptions-=L
@@ -113,7 +126,7 @@ if has('gui')
     nnoremap <leader>me :set guioptions+=m
     nnoremap <leader>md :set guioptions-=m
 
-    "opem gui vim maximzed
+    "open gui vim maximzed
     au GUIEnter * simalt ~x
 endif
 
@@ -125,6 +138,7 @@ nnoremap <C-j>  <c-w>j
 nnoremap <C-k>  <c-w>k
 nnoremap <C-l>  <c-w>l
 
+" more consistent with vs & vsplit
 cabb <silent> hs        split
 cabb <silent> hsplit    split
 
@@ -153,19 +167,23 @@ inoremap <A-b>        <Esc>bi
 " diff
 " ----
 if $diff
-    map [   [c
-    map ]   ]c
-    set scrollbind
-    set syntax=diff
+    map [   [c          " go to the next mismatch
+    map ]   ]c          " go to the previous mismatch
+    set scrollbind      " scroll all windows together
+    set syntax=diff     " visualize mismatches
 endif
 
 " ---------
 " GRAPHICAL
 " ---------
-syntax on
-set bg=dark
-set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
-set list
+syntax on                                               " enable syntax highlighting
+set bg=dark                                             " background color
+set listchars=tab:▸\                                    " symbol for visibility of tab characters
+set listchars+=eol:¬                                    " symbol for visibility of the end of line character
+set listchars+=extends:❯                                " symbol for visibility of an incomplete line
+set listchars+=precedes:❮                               " symbol for visibility of an incomplete line
+set listchars+=trail:•                                  " symbol for visibility of trailing white spaces
+set list                                                " show special characters
 highlight NonText ctermfg=0 guifg=gray
 highlight SpecialKey ctermfg=0 guifg=gray
 
@@ -175,14 +193,12 @@ if has('statusline')
   highlight pathToFile      ctermfg=darkgray  ctermbg=0 cterm=bold
   highlight stdColor        ctermfg=white     ctermbg=0
   set statusline = ""
-  set statusline+=%#stdColor#
-  "set statusline=%<%f%m\ \[%{&ff}:%{&fenc}:%Y]\ %{getcwd()}\ \ 
   set statusline+=%<%#pathToFile#%{getcwd()}\/%#stdColor#%f%m\  "show the filename of the window
-  
+
   set statusline+=%=\ Line:%l\/%L\ %P                           "show the linenumbers and the percentage
   if !exists('$TMUX')
     highlight currentTime   ctermfg=red   ctermbg=black
-    set statusline+=\%#currentTime#\ 
+    set statusline+=\%#currentTime#\
     set statusline+=%=%{strftime('%Y/%b/%d\ %a\ %H:%M')}\   "show date & time in the statusline
   endif
 endif
