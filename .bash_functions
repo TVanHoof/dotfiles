@@ -75,6 +75,8 @@ function TmuxLoadLocalSettings {
                 echo "$SHA" >> ~/.tmux.sha
                 ./.tmux.local
             fi
+        else
+            ./.tmux.local
         fi
     else
         notify-send --expire-time=2000 "Did not find executable file .tmux.local"
