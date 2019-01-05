@@ -1,16 +1,8 @@
-#ignore everything
-*
+#ignore everything in .config
+.config/*
 
-#except for this files
-!.gitignore
-!.i3/*
-!.bash_functions
-!.shortcuts
-!.profile
-!.vimrc
-!.inputrc
-!.tmux.conf
-!.gitconfig
-!.xinitrc
-!.config/feh/*
+#except for these files
 !.config/ranger/*
+!.config/i3/*
+!.config/i3status/*
+!.config/feh/*
