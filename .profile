@@ -12,8 +12,13 @@
 export PATH=$PATH:/usr/local/nrf_command_line_tools/nrfjprog:/usr/local/nrf_command_line_tools/mergehex
 
 export EDITOR=vim
-export TERMINAL=st
-export BROWSER=chromium-browser
+export TERMINAL=urxvt
+export BROWSER=Chromium
+
+export DOTFILES="$HOME/.dotfiles"
+
+export QT_QPA_PLATFORMTHEME="qt5ct"
+export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
@@ -28,4 +33,4 @@ if [ -d "$HOME/.bin" ] ; then
     PATH="$HOME/.bin:$PATH"
 fi
 
-setxkbmap -option caps:escape
+setxkbmap -option 'caps:ctrl_modifier' && xcape -e 'Caps_Lock=Escape' &
