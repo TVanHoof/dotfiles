@@ -3,10 +3,10 @@ alias f="ranger"                #mnemonic => files
 alias q="exit"                  #mnemonic => quit
 alias t="TmuxLoadLocalSettings" #mnemonic => tmux
 
-DOC="~/Documenten"
-IMG="~/Afbeeldingen"
-MUS="~/Muziek"
-WS="~/workspace"
+DOC="~/Documents"
+IMG="~/Pictures"
+MUS="~/Music"
+WS="~/Workspace"
 
 # Home
 GenerateShortcuts h $HOME
@@ -42,6 +42,12 @@ GenerateShortcuts m $MUS
 complete -F Completions_music gm
 complete -F Completions_music tm
 
+GenerateShortcuts dot $DOTFILES
+# generate  gdot => go to dotfiles
+#           tdot => new tab in dotfiles (tmux)
+#           mdot => move to dotfiles
+#           ydot => copy to dotfiles
+
 # Workspace
 GenerateShortcuts w $WS
 # generate  gw => go to workspace
@@ -52,9 +58,14 @@ complete -F Completions_workspace gw
 complete -F Completions_workspace tw
 
 ### general stuff
-alias bg=background
+alias wp=wallpaper
 alias cdn=GoToNewDirectory
-alias brc="vim -p ~/.bashrc ~/.bash_functions ~/.bash_shortcuts ~/.profile; source ~/.profile"
+alias brc="vim -p ~/.bashrc ~/.dotfiles/.bash_functions ~/.dotfiles/.bash_shortcuts ~/.bash_profile ~/.profile; source ~/.profile; source ~/.bash_profile"
+
+alias cp="cp -i"                          # confirm before overwriting something
+alias df='df -h'                          # human-readable sizes
+alias free='free -m'                      # show sizes in MB
+
 
 ### git ###
 alias g="git"
