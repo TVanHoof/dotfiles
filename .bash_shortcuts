@@ -62,6 +62,7 @@ alias wp=wallpaper
 alias cdn=GoToNewDirectory
 alias brc="vim -p ~/.bashrc ~/.dotfiles/.bash_functions ~/.dotfiles/.bash_shortcuts ~/.bash_profile ~/.profile; source ~/.profile; source ~/.bash_profile"
 
+alias ll="ls -al"                         # list al files in list
 alias cp="cp -i"                          # confirm before overwriting something
 alias df='df -h'                          # human-readable sizes
 alias free='free -m'                      # show sizes in MB
