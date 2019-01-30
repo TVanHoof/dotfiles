@@ -57,6 +57,8 @@ bindsym $mod+ctrl+Escape    exec python2 ~/Workspace/power_menu/power_menu.py   
 bindsym $mod+w              exec chromium                                           #mnemonic:    web
 bindsym $mod+f              exec $term -e ranger                                    #mnemonic:    files
 bindsym $mod+m              exec spotify                                            #mnemonic:    music
+bindsym $mod+i              exec $term -e htop                                      #mnemonic:    info
+bindsym $mod+a              exec $term -e alsamixer                                 #mnemonic:    audio
 bindsym $mod+z              [instance="dropdown"] scratchpad show; [instance="dropdown"] move position center
 
 for_window [class="^.*"] border pixel 1
