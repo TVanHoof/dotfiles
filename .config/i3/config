@@ -53,7 +53,7 @@ bindsym $mod+space exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # create usefull shortcuts
-bindsym $mod+ctrl+Escape    exec python2 ~/Workspace/power_menu/power_menu.py       #controlled escape 
+bindsym $mod+shift+Escape   exec python2 ~/Workspace/power_menu/power_menu.py       #controlled escape 
 bindsym $mod+w              exec chromium                                           #mnemonic:    web
 bindsym $mod+f              exec $term -e ranger                                    #mnemonic:    files
 bindsym $mod+m              exec spotify                                            #mnemonic:    music
