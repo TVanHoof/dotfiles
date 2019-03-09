@@ -231,6 +231,11 @@ function! GoToTopDirectory(command, fileInTopDir)
     execute a:command fnameescape(l:topDir)
 endfunction
 
+if filereadable(".vimlocalconfig")
+    source .vimlocalconfig
+    echo "sourced .vimlocalconfig"
+endif
+
 cabb cdt    call GoToTopDirectory('cd', "tags")
 cabb lcdt   call GoToTopDirectory('lcd', "tags")
 cabb cdb    cd %:p:h
