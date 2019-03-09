@@ -1,0 +1,5 @@
+#!/usr/bin/bash
+
+cd ~/Workspace/DidItChange
+./DidItChange urls.txt
+cd -
