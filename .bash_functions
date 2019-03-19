@@ -66,7 +66,7 @@ function wallpaper {
 
 function TmuxLoadLocalSettings {
     if [ -x .tmux.local ]; then
-        local SHA="$(openssl sha -sha512 .tmux.local)"
+        local SHA="$(openssl sha512 .tmux.local)"
         if ! grep -q "$SHA" ~/.tmux.sha 2> /dev/null; then
             cat .tmux.local
             read -p 'REPLY?Run new file (y/n)? '
