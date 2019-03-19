@@ -26,6 +26,7 @@ set shiftround            " round to multiples of shiftwidth
 set tabstop=4             " tab key indents X spaces at a time
 
 set foldenable            " enable folding
+set nowrap
 set scrolloff=3           " keep space between cursor and top/bottom of the screen
 set backspace=indent,eol,start
 
@@ -50,12 +51,16 @@ set wildmode=list:full
 set wildignore=*.o,*.a,*.hex,*.lib,*git
 set completeopt=menu,longest,preview
 
+" stop bell
+set belloff=all
+
 set switchbuf=usetab      " re-use open windows/tabs when switching
 
 set noswapfile            " do not create a swap file
 set path+=**              " search in all subdirectories
 
 set mouse=a
+set mousehide
 
 " --------------------
 " just more convenient
@@ -67,12 +72,13 @@ vnoremap    <                <gv
 cabb        bb               b#
 imap        <silent> <Down>  <C-o>gj
 imap        <silent> <Up>    <C-o>gk
-nmap        <silent> <Down>  <C-o>gj
-nmap        <silent> <Up>    <C-o>gk
-vnoremap    <c-c>            "*y
-inoremap    <c-v>            <C-r>*
-vnoremap    <c-v>            c<C-r>*
+nmap        <silent> <Down>  gj
+nmap        <silent> <Up>    gk
+vnoremap    <C-c>           "*y
+inoremap    <C-v>            <C-r>*
+vnoremap    <C-v>            c<C-r>*
 map         Y                y$
+nmap        <Del>           <Nop>
 
 " ----------------------
 " Useful leader mappings
@@ -88,7 +94,7 @@ nnoremap <silent> <leader>iw  :set invwrap<CR>
 
 " go to next/previous error and center
 nnoremap <silent> <leader>]   :cn<CR>zz
-nnoremap <silent> <leader>]   :cp<CR>zz
+nnoremap <silent> <leader>[   :cp<CR>zz
 
 "commands for C programming
 autocmd Filetype c,cpp inoremap {<CR>         {<CR>}<Esc>O
@@ -138,6 +144,9 @@ nnoremap <C-j>  <c-w>j
 nnoremap <C-k>  <c-w>k
 nnoremap <C-l>  <c-w>l
 
+" prefix window
+nnoremap <a-]>  <c-w>]
+
 " more consistent with vs & vsplit
 cabb <silent> hs        split
 cabb <silent> hsplit    split
@@ -161,7 +170,13 @@ cnoremap <A-F>        <S-Right>
 inoremap <C-A>        <Home>
 inoremap <C-E>        <End>
 inoremap <A-F>        <Esc>ea
-inoremap <A-b>        <Esc>bi
+inoremap <A-B>        <Esc>bi
+inoremap <C-F>        <C-o>l
+inoremap <C-B>        <C-o>h
+inoremap <C-D>        <Del>
+inoremap <C-N>        <C-o>j
+inoremap <C-P>        <C-o>k
+
 
 " ----
 " diff
