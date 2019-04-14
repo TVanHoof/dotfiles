@@ -1,4 +1,4 @@
-### general shortcutsto go to, create new tab in, move file to & copy file to destination ###
+### general shortcuts to go to, create new tab in, move file to & copy file to destination ###
 function GenerateShortcuts {
     alias g$1="goto $2"
     alias t$1="tabto $2"
