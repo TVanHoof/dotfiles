@@ -253,20 +253,35 @@ set_from_resource $term_color13    color13
 set_from_resource $term_color14    color14
 set_from_resource $term_color15    color15
 
-set $active_border_color    #604020
-set $active_bg_color        #604020
-set $active_text_color      #eeeeee
-set $active_indicator       #00ff00
+set_from_resource $active_border_color    active_border_color
+set_from_resource $active_bg_color        active_bg_color        
+set_from_resource $active_text_color      active_text_color      
+set_from_resource $active_indicator       active_indicator       
 
-set $inactive_border_color  #302010
-set $inactive_bg_color      #302010
-set $inactive_text_color    #606060
-set $inactive_indicator     #00ff00
+set_from_resource $inactive_border_color  inactive_border_color
+set_from_resource $inactive_bg_color      inactive_bg_color
+set_from_resource $inactive_text_color    inactive_text_color
+set_from_resource $inactive_indicator     inactive_indicator
 
-set $urgent_border_color    #8080ff
-set $urgent_bg_color        #8080ff
-set $urgent_text_color      #f5f5f5
-set $urgent_indicator       #00ff00
+set_from_resource $urgent_border_color    urgent_border_color
+set_from_resource $urgent_bg_color        urgent_bg_color
+set_from_resource $urgent_text_color      urgent_text_color
+set_from_resource $urgent_indicator       urgent_indicator
+
+#set $active_border_color    #604020
+#set $active_bg_color        #604020
+#set $active_text_color      #eeeeee
+#set $active_indicator       #00ff00
+#
+#set $inactive_border_color  #302010
+#set $inactive_bg_color      #302010
+#set $inactive_text_color    #606060
+#set $inactive_indicator     #00ff00
+#
+#set $urgent_border_color    #8080ff
+#set $urgent_bg_color        #8080ff
+#set $urgent_text_color      #f5f5f5
+#set $urgent_indicator       #00ff00
 
 # window colors
 #                           border                  background          text                    indicator
@@ -284,7 +299,7 @@ bar {
             background  $term_background
             separator   #757575
             #                   border          background          text
-            focused_workspace  $term_foreground $term_background    $term_foreground
+            focused_workspace  $term_background $term_background    $term_foreground
             inactive_workspace $term_background $term_background    $inactive_text_color
             urgent_workspace   $urgent_bg_color $urgent_bg_color    $urgent_text_color
         }
