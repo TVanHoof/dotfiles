@@ -62,10 +62,13 @@ if ${use_color} ; then
         fi
     fi
 
+    # change color of executable files
+    export LS_COLORS="$LS_COLORS:ex=01;33"
+
     if [[ ${EUID} == 0 ]] ; then
-        PS1='\[\033[01;31m\][\h\[\033[01;36m\] \W\[\033[01;31m\]]\$\[\033[00m\] '
+        PS1='\[\033[01;31m\][\h\[\033[01;36m\] \w\[\033[01;31m\]]\$\[\033[00m\] '
     else
-        PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \W\[\033[01;32m\]]\$\[\033[00m\] '
+        PS1='\[\033[01;32m\][\u@\h\[\033[01;37m\] \w\[\033[01;32m\]]\$\[\033[00m\] '
     fi
 
     alias ls='ls --color=auto'
