@@ -268,6 +268,8 @@ set_from_resource $urgent_bg_color        urgent_bg_color
 set_from_resource $urgent_text_color      urgent_text_color
 set_from_resource $urgent_indicator       urgent_indicator
 
+set_from_resource $bar_separator          bar_separator
+
 #set $active_border_color    #604020
 #set $active_bg_color        #604020
 #set $active_text_color      #eeeeee
@@ -297,7 +299,7 @@ bar {
         status_command i3status
         colors {
             background  $term_background
-            separator   #757575
+            separator   $bar_separtor
             #                   border          background          text
             focused_workspace  $term_background $term_background    $term_foreground
             inactive_workspace $term_background $term_background    $inactive_text_color
