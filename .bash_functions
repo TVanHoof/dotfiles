@@ -60,8 +60,8 @@ function GoToNewDirectory {
 }
 
 function wallpaper {
-    ln -sf $1 ~/Pictures/wallpaper 
-    feh --bg-scale ~/Pictures/wallpaper
+    ln -sf $1 ~/Pictures/Wallpapers/wallpaper
+    feh --bg-scale ~/Pictures/Wallpapers/wallpaper
 }
 
 function TmuxLoadLocalSettings {

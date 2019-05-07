@@ -362,4 +362,4 @@ exec --no-startup-id $term -name dropdown -e tmux_dropdown
 exec --no-startup-id compton -i 0.8 -f
 exec --no-startup-id blueman-applet
 exec nm-applet
-exec_always --no-startup-id feh --bg-scale ~/Pictures/wallpaper
+exec_always --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/wallpaper
