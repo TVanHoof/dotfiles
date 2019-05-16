@@ -60,6 +60,7 @@ bindsym $mod+m              exec spotify                                        
 bindsym $mod+i              exec $term -e htop                                      #mnemonic:    info
 bindsym $mod+a              exec $term -e alsamixer                                 #mnemonic:    audio
 bindsym $mod+z              [instance="dropdown"] scratchpad show; [instance="dropdown"] move position center
+bindsym $mod+Alt+d          exec $term -e DateTimeNotification
 
 for_window [class="^.*"] border pixel 1
 
@@ -362,4 +363,4 @@ exec --no-startup-id $term -name dropdown -e tmux_dropdown
 exec --no-startup-id compton -i 0.8 -f
 exec --no-startup-id blueman-applet
 exec nm-applet
-exec_always --no-startup-id feh --bg-scale ~/Pictures/Wallpapers/wallpaper
+exec_always --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/wallpaper
