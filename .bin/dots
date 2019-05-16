@@ -1,0 +1,3 @@
+#!/usr/bin/bash
+
+find $DOTFILES -type f | grep -v "\.git/" | fzf --reverse | xargs --no-run-if-empty bash -c '</dev/tty vim "$@"' zero
