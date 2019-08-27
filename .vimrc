@@ -17,6 +17,7 @@ set term=screen-256color
 set cursorline            " show underline for current cursor
 set showcmd               " show command (only if not fully completed)
 set showmode              " show the current mode we are in
+set showfulltag           " show tag when ins-completion usefull for functions with arguments
 set ruler                 " show where we are in the file
 
 " tab-related
@@ -80,12 +81,18 @@ vnoremap    <C-v>            c<C-r>*
 map         Y                y$
 nmap        <Del>           <Nop>
 
+
 " ----------------------
 " Useful leader mappings
 " ----------------------
 " edit and reload my vimrc
 nnoremap <leader>ve :tabnew $MYVIMRC<CR>
 nnoremap <leader>vr :source $MYVIMRC<CR>
+
+" quickly write, quit, ...
+nnoremap    <leader>w       :w<CR>
+nnoremap    <leader>x       :x<CR>
+nnoremap    <leader>q       :q!<CR>
 
 " inverters for commonly used settings
 nnoremap <silent> <leader>ih  :set invhlsearch<CR>
@@ -111,10 +118,11 @@ autocmd  FileType c,cpp     :setlocal cindent
 
 augroup commenting
   autocmd!
-  autocmd Filetype c,cpp,h,hpp  nnoremap <buffer> <leader>c I//<Esc>
-  autocmd Filetype c,cpp,h,hpp  vnoremap <buffer> <leader>c s/**/<Left><Left>P
-  autocmd Filetype py           nnoremap <buffer> <leader>c I#<Esc>
-  autocmd Filetype py           vnoremap <buffer> <leader>c Iu<Esc>
+  autocmd Filetype c,cpp,h,hpp  nnoremap <leader>c I//<Esc>
+  "autocmd Filetype c,cpp,h,hpp  vnoremap <leader>c s/**/<Left><Left>P
+  autocmd Filetype c,cpp,h,hpp  vnoremap <expr> <leader>c visualmode() ==# 'v' ? s/*<c-r>'*/<esc>gv : visualmode() ==# 'V'? <esc>'<I/*<esc>'A*/ : I//
+  autocmd Filetype py           nnoremap <leader>c I#<Esc>
+  autocmd Filetype py           vnoremap <leader>c Iu<Esc>
 augroup end
 
 " --------------------
@@ -145,7 +153,8 @@ nnoremap <C-k>  <c-w>k
 nnoremap <C-l>  <c-w>l
 
 " prefix window
-nnoremap <a-]>  <c-w>]
+nnoremap <a-]>           <c-w>}
+nnoremap <silent> <a-[>  :pc
 
 " more consistent with vs & vsplit
 cabb <silent> hs        split
@@ -177,6 +186,11 @@ inoremap <C-D>        <Del>
 inoremap <C-N>        <C-o>j
 inoremap <C-P>        <C-o>k
 
+" --------------
+" Preview window
+" --------------
+nnoremap <a-]>          <C-w>}
+nnoremap <silent><a-[>  :pc<CR>
 
 " ----
 " diff
@@ -187,6 +201,32 @@ if $diff
     set scrollbind      " scroll all windows together
     set syntax=diff     " visualize mismatches
 endif
+
+" ----------------------------------
+" Personal typo corrections
+" ----------------------------------
+function! Abbrev(lhs, rhs, mode)
+    let llower = tolower(a:lhs)
+    let rlower = tolower(a:rhs)
+    let lupper = toupper(a:lhs)
+    let rupper = toupper(a:rhs)
+    let ltitle = substitute(llower, ".*", "\\u\\0", "")
+    let rtitle = substitute(rlower, ".*", "\\u\\0", "")
+    exe a:mode . "abbrev" llower rlower
+    if llower != lupper
+        exe a:mode . "abbrev" lupper rupper
+    endif
+    if ltitle != lupper && ltitle != llower
+        exe a:mode . "abbrev" ltitle rtitle
+    endif
+endfunction
+
+call Abbrev("flase", "false", "inore")
+call Abbrev("deifne", "define", "inore")
+call Abbrev("disalbe", "disable", "inore")
+call Abbrev("enalbe", "enable", "inore")
+call Abbrev("funcition", "function", "inore")
+call Abbrev("vehicel", "vehicle", "inore")
 
 " ---------
 " GRAPHICAL
