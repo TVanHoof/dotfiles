@@ -56,7 +56,7 @@ function Completions_workspace {
 
 ### usefull functions
 function GoToNewDirectory {
-    mkdir -p $1 && cd $1
+    mkdir -p $1 && cd $1 || echo "unable to create directory: $1"
 }
 
 function wallpaper {
