@@ -9,6 +9,7 @@ set relativenumber        " show relative line numbers
 
 set magic                 " use magic when searching with regex
 set autoindent            " try to autoindent automatically
+set smartindent           " use indent after {, keywords, ...
 set autoread              " keep file up to date
 
 set term=screen-256color
@@ -27,7 +28,7 @@ set shiftround            " round to multiples of shiftwidth
 set tabstop=4             " tab key indents X spaces at a time
 
 set foldenable            " enable folding
-set nowrap
+set nowrap                " disable autowrap
 set scrolloff=3           " keep space between cursor and top/bottom of the screen
 set backspace=indent,eol,start
 
@@ -81,6 +82,8 @@ vnoremap    <C-v>            c<C-r>*
 map         Y                y$
 nmap        <Del>           <Nop>
 
+" remove all autocmds before sourcing the new set
+autocmd!
 
 " ----------------------
 " Useful leader mappings
@@ -109,15 +112,14 @@ autocmd Filetype c,cpp vnoremap {<CR>         S{<CR>}<Esc>Pk=iB
 autocmd Filetype c,cpp inoremap /*<CR>        /*<CR>*/<Esc>O
 autocmd Filetype c,cpp inoremap (             ()<Left>
 autocmd Filetype c,cpp inoremap <expr> )      strpart(getline('.'), col('.')-1,1) == ")" ? "\<Right>" : ")"
-autocmd Filetype c,cpp nmap     <Leader>c     <Esc>%ky$j%A/*<Esc>p
+autocmd Filetype c,cpp nmap     <Leader>i     <Esc>%ky$j%A/*<Esc>p
 autocmd Filetype c,cpp nmap     <Leader>f     <Esc>%kf(hyiwj%A/*<Esc>p
 
 filetype plugin on
 filetype indent on
-autocmd  FileType c,cpp     :setlocal cindent
+autocmd  FileType c,h,cpp,hpp     :setlocal cindent
 
 augroup commenting
-  autocmd!
   autocmd Filetype c,cpp,h,hpp  nnoremap <leader>c I//<Esc>
   "autocmd Filetype c,cpp,h,hpp  vnoremap <leader>c s/**/<Left><Left>P
   autocmd Filetype c,cpp,h,hpp  vnoremap <expr> <leader>c visualmode() ==# 'v' ? s/*<c-r>'*/<esc>gv : visualmode() ==# 'V'? <esc>'<I/*<esc>'A*/ : I//
@@ -132,6 +134,8 @@ if has('gui')
     " turn of what we don't want
     set guioptions-=T
     set guioptions-=r
+    set guioptions-=R
+    set guioptions-=l
     set guioptions-=L
     set guioptions-=M
     set guioptions-=m
@@ -159,6 +163,10 @@ nnoremap <silent> <a-[>  :pc
 " more consistent with vs & vsplit
 cabb <silent> hs        split
 cabb <silent> hsplit    split
+
+" split and find
+cabb <silent> vsf       vert sf
+cabb <silent> hsf       sf
 
 " -----------------------------------
 " Emacs style editing on command-line
@@ -196,8 +204,6 @@ nnoremap <silent><a-[>  :pc<CR>
 " diff
 " ----
 if $diff
-    map [   [c          " go to the next mismatch
-    map ]   ]c          " go to the previous mismatch
     set scrollbind      " scroll all windows together
     set syntax=diff     " visualize mismatches
 endif
@@ -228,15 +234,29 @@ call Abbrev("enalbe", "enable", "inore")
 call Abbrev("funcition", "function", "inore")
 call Abbrev("vehicel", "vehicle", "inore")
 
+" -----------------------------
+" My implementation of surround
+" -----------------------------
+vnoremap <expr>	(	visualmode() ==# 'v'? "<Esc>'>a)<Esc>m>'<i(<Esc>lm<gv" : "A)<Esc>gVI(<Esc>"
+vnoremap <expr>	)	visualmode() ==# 'v'? "<Esc>'>a)<Esc>m>'<i(<Esc>lm<gv" : "A)<Esc>gVI(<Esc>"
+vnoremap <expr>	{	visualmode() ==# 'v'? "<Esc>'>a}<Esc>m>'<i{<Esc>lm<gv" : "A}<Esc>gVI{<Esc>"
+vnoremap <expr>	}	visualmode() ==# 'v'? "<Esc>'>a}<Esc>m>'<i{<Esc>lm<gv" : "A}<Esc>gVI{<Esc>"
+vnoremap <expr>	[	visualmode() ==# 'v'? "<Esc>'>a]<Esc>m>'<i[<Esc>lm<gv" : "A]<Esc>gVI[<Esc>"
+vnoremap <expr>	]	visualmode() ==# 'v'? "<Esc>'>a]<Esc>m>'<i[<Esc>lm<gv" : "A]<Esc>gVI[<Esc>"
+vnoremap <expr>	<	visualmode() ==# 'v'? "<Esc>'>a><Esc>m>'<i<<Esc>lm<gv" : "A><Esc>gVI<<Esc>"
+vnoremap <expr>	>	visualmode() ==# 'v'? "<Esc>'>a><Esc>m>'<i<<Esc>lm<gv" : "A><Esc>gVI<<Esc>"
+vnoremap <expr>	'	visualmode() ==# 'v'? "<Esc>'>a\'<Esc>m>'<i\'<Esc>lm<gv" : "A\'<Esc>gVI\'<Esc>"
+vnoremap <expr>	"	visualmode() ==# 'v'? "<Esc>'>a\"<Esc>m>'<i\"<Esc>lm<gv" : "A\"<Esc>gVI\"<Esc>"
+
 " ---------
 " GRAPHICAL
 " ---------
 syntax on                                               " enable syntax highlighting
 set bg=dark                                             " background color
-set listchars=tab:▸\                                    " symbol for visibility of tab characters
+set listchars=tab:⊃\                                    " symbol for visibility of tab characters
 set listchars+=eol:¬                                    " symbol for visibility of the end of line character
-set listchars+=extends:❯                                " symbol for visibility of an incomplete line
-set listchars+=precedes:❮                               " symbol for visibility of an incomplete line
+set listchars+=extends:>                                " symbol for visibility of an incomplete line
+set listchars+=precedes:<                               " symbol for visibility of an incomplete line
 set listchars+=trail:•                                  " symbol for visibility of trailing white spaces
 set list                                                " show special characters
 highlight NonText ctermfg=0 guifg=gray
@@ -260,8 +280,8 @@ endif
 
 "visualize current focus
 highlight colorcolumn ctermbg=darkgrey guibg=lightgrey
-au FocusLost,WinLeave * let &l:colorcolumn=join(range(1,128),",")
-au BufEnter,FocusGained,VimEnter,WinEnter * let &l:colorcolumn=0
+"au FocusLost,WinLeave * let &l:colorcolumn=join(range(1,128),",")
+"au BufEnter,FocusGained,VimEnter,WinEnter * let &l:colorcolumn=0
 au FocusLost,WinLeave * :setlocal norelativenumber
 au BufEnter,FocusGained,VimEnter,WinEnter * :setlocal relativenumber
 au VimResized * execute "normal! \<c-w>="
