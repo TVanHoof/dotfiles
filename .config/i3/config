@@ -358,7 +358,7 @@ for_window [instance="dropdown"] floating enable
 # for_window [instance="dropdown"] resize set 800 480
 for_window [instance="dropdown"] move scratchpad
 for_window [instance="dropdown"] border pixel 2
-exec --no-startup-id $term -name dropdown -e tmux_dropdown
+exec --no-startup-id $term -name dropdown -e tmux_dropdown &
 
 exec --no-startup-id compton -i 0.8 -f
 exec --no-startup-id blueman-applet
