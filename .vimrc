@@ -25,19 +25,20 @@ set ruler					" show where we are in the file
 set noexpandtab				" use spaces when <tab> is pressed
 set shiftwidth=2			" X spaces to indent
 set shiftround				" round to multiples of shiftwidth
-set tabstop=2				" tab key indents X spaces at a time
+set softtabstop=0			" disable softtab
+set tabstop=2					" tab key indents X spaces at a time
 
 set foldenable				" enable folding
-set nowrap					" disable autowrap
+set nowrap						" disable autowrap
 set scrolloff=3				" keep space between cursor and top/bottom of the screen
 set backspace=indent,eol,start
 
 " format options
-set formatoptions="tc"		" automatic formatting of text and comments
+set formatoptions="tc"	" automatic formatting of text and comments
 set formatoptions+=q		" allow formating with gq (default)
 set formatoptions+=j		" join comments
 set formatoptions+=n		" auto-indenting inside numbered lists
-set nojoinspaces			" do not insert two spaces after a '.', '?' and '!'
+set nojoinspaces				" do not insert two spaces after a '.', '?' and '!'
 
 " split direction
 set splitbelow
@@ -64,17 +65,12 @@ set path+=**				" search in all subdirectories
 set mouse=a
 set mousehide
 
+" remove all autocmds before reloading
+autocmd!
+
 " --------------------
 " just more convenient
 " --------------------
-nnoremap	:					;
-nnoremap	;					:
-vnoremap	>					>gv
-vnoremap	<					<gv
-imap		<silent> <Down>		<C-o>gj
-imap		<silent> <Up>		<C-o>gk
-nmap		<silent> <Down>		gj
-nmap		<silent> <Up>		gk
 vnoremap	<C-c>				"*y
 inoremap	<C-v>				<C-r>*
 vnoremap	<C-v>				c<C-r>*
@@ -117,14 +113,20 @@ autocmd Filetype c,cpp nmap		<Leader>f	<Esc>%kf(hyiwj%A/*<Esc>p
 filetype plugin on
 filetype indent on
 autocmd  FileType c,h,cpp,hpp	:setlocal cindent
-
 augroup commenting
-  autocmd Filetype c,cpp,h,hpp	nnoremap <leader>c	I//<Esc>
-  "autocmd Filetype c,cpp,h,hpp	vnoremap <leader>c	s/**/<Left><Left>P
-  autocmd Filetype c,cpp,h,hpp	vnoremap <expr> <leader>c visualmode() ==# 'v' ? s/*<c-r>'*/<esc>gv : visualmode() ==# 'V'? <esc>'<I/*<esc>'A*/ : I//
-  autocmd Filetype py			nnoremap <leader>c	I#<Esc>
-  autocmd Filetype py			vnoremap <leader>c	Iu<Esc>
+	autocmd Filetype c,cpp,h,hpp	nnoremap	<buffer>	<expr>	<leader>c getline('.') =~ '^\s//.*' ? '^"_2x' : 'I//<Esc>'
+	autocmd Filetype c,cpp,h,hpp	vnoremap	<buffer>	<expr>	<leader>c mode ==# 'v' ? 'c/*<c-r>"*/<Esc>gv4l' : mode ==# 'V' ? 'I//<Esc>gv' : 'A*/<Esc>gvI/*<Esc>'
+	autocmd Filetype python				nnoremap	<buffer>	<expr>	<leader>c getline('.') =~ '^\s--.*' ? '^"_2x' : 'I--<Esc>'
+	autocmd Filetype python				vnoremap	<buffer>	<leader>c 				I--<esc>
+	autocmd Filetype sh						nnoremap	<buffer>	<expr>	<leader>c getline('.') =~ '^\s#.*' ? '^"_2x' : 'I#<Esc>'
+	autocmd Filetype sh						vnoremap	<buffer>	<leader>c 				I#<esc>
 augroup end
+
+autocmd Filetype c,cpp,h,hpp	nmap <lead>(	^wv$(<Esc>
+autocmd Filetype c,cpp,h,hpp	nmap <lead><CR>	^elr(<Esc>A){<CR>
+
+"remove trailing white chars before writing to disk
+autocmd BufWritePre * ;%s/\s\+$//e
 
 " --------------------
 " GUI stuff
@@ -139,9 +141,11 @@ if has('gui')
 	set guioptions-=M
 	set guioptions-=m
 
+	set guifont=Lucida_console:h9
+	set langmenu=en_US.UTF-8
+
 	"menu enable and disable
-	nnoremap <leader>me :set guioptions+=m
-	nnoremap <leader>md :set guioptions-=m
+	nnoremap <expr>		<leader>im	&guioptions=~#".*m.*" ? "set guioptions-=m<CR>" : "set guioptions+=m<CR>"
 
 	"open gui vim maximzed
 	au GUIEnter * simalt ~x
@@ -154,10 +158,6 @@ nnoremap	<C-h>		<c-w>h
 nnoremap	<C-j>		<c-w>j
 nnoremap	<C-k>		<c-w>k
 nnoremap	<C-l>		<c-w>l
-
-" prefix window
-nnoremap	<a-]>			<c-w>}
-nnoremap	<silent> <a-[>	:pc
 
 " more consistent with vs & vsplit
 cabb	<silent> hs		split
@@ -202,7 +202,7 @@ nnoremap	<silent><a-[>	:pc<CR>
 " ----
 " diff
 " ----
-if $diff
+if &diff
 	set scrollbind		" scroll all windows together
 	set syntax=diff		" visualize mismatches
 endif
@@ -236,16 +236,25 @@ call Abbrev("vehicel", "vehicle", "inore")
 " -----------------------------
 " My implementation of surround
 " -----------------------------
-vnoremap	<expr>(	visualmode() ==# 'v'? "<Esc>'>a)<Esc>m>'<i(<Esc>lm<gv" : "A)<Esc>gVI(<Esc>"
-vnoremap	<expr>)	visualmode() ==# 'v'? "<Esc>'>a)<Esc>m>'<i(<Esc>lm<gv" : "A)<Esc>gVI(<Esc>"
-vnoremap	<expr>{	visualmode() ==# 'v'? "<Esc>'>a}<Esc>m>'<i{<Esc>lm<gv" : "A}<Esc>gVI{<Esc>"
-vnoremap	<expr>}	visualmode() ==# 'v'? "<Esc>'>a}<Esc>m>'<i{<Esc>lm<gv" : "A}<Esc>gVI{<Esc>"
-vnoremap	<expr>[	visualmode() ==# 'v'? "<Esc>'>a]<Esc>m>'<i[<Esc>lm<gv" : "A]<Esc>gVI[<Esc>"
-vnoremap	<expr>]	visualmode() ==# 'v'? "<Esc>'>a]<Esc>m>'<i[<Esc>lm<gv" : "A]<Esc>gVI[<Esc>"
-vnoremap	<expr><	visualmode() ==# 'v'? "<Esc>'>a><Esc>m>'<i<<Esc>lm<gv" : "A><Esc>gVI<<Esc>"
-vnoremap	<expr>>	visualmode() ==# 'v'? "<Esc>'>a><Esc>m>'<i<<Esc>lm<gv" : "A><Esc>gVI<<Esc>"
-vnoremap	<expr>'	visualmode() ==# 'v'? "<Esc>'>a\'<Esc>m>'<i\'<Esc>lm<gv" : "A\'<Esc>gVI\'<Esc>"
-vnoremap	<expr>"	visualmode() ==# 'v'? "<Esc>'>a\"<Esc>m>'<i\"<Esc>lm<gv" : "A\"<Esc>gVI\"<Esc>"
+function! MyVisualSurround(lhs, rhs, mode)
+	if a:lhs == a:rhs
+		exe a:mode . "map <expr> " . a:lhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:lhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:lhs . "<Esc>m>gvI" . a:lhs . "<Esc>lm<gv\""
+	else
+		exe a:mode . "map <expr> " . a:lhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:rhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:rhs . "<Esc>m>gvI" . a:lhs . "<Esc>lm<gv\""
+		exe a:mode . "map <expr> " . a:rhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:rhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:rhs . "<Esc>m>gvI" . a:lhs . "<Esc>lm<gv\""
+	endif
+endfunction
+
+call MyVisualSurround("(", ")", "vnore")
+call MyVisualSurround("[", "]", "vnore")
+call MyVisualSurround("{", "}", "vnore")
+call MyVisualSurround("\'", "\'", "vnore")
+"special case for for < and > since we would still like to indent
+vnoremap	<expr> < mode() ==# 'V' ? "<gv" : mode() ==# 'v' ? "<Esc>`>a><Esc>m>`<i<<Esc>lm>gv" : "A><Esc>`>lm>gvI<<Esc>lm<gv"
+vnoremap	<expr> > mode() ==# 'V' ? ">gv" : mode() ==# 'v' ? "<Esc>`>a><Esc>m>`<i<<Esc>lm>gv" : "A><Esc>`>lm>gvI<<Esc>lm<gv"
+"manually entered surround for " because it breaks MyVisualSurround
+vnoremap <expr>	"	mode() ==# 'v' ? "<Esc>`>a\"<Esc>m>`<i\"<Esc>lm<gv" : "A\"<Esc>m>gvI\"<Esc>lm<gv"
+
 
 " ---------
 " GRAPHICAL
@@ -263,16 +272,54 @@ highlight SpecialKey ctermfg=0 guifg=gray
 
 "statusline
 if has('statusline')
+	let g:StatusLineMode=0
+	let g:StatusLinePath=1
+	let g:StatusLineRegion=1
+	let g:StatusLineTime=1
+
+	function! ModeToString()
+		if "n" == mode()
+			highlight mode				ctermfg=grey			ctermbg=black		cterm=bold
+			return " NORMAL "
+		elseif "v" == mode() || "V" == mode()
+			highlight mode				ctermfg=green			ctermbg=black		cterm=bold
+			return " VISUAL "
+		elseif "s" == mode()
+			highlight mode				ctermfg=blue			ctermbg=black		cterm=bold
+			return " SELECT "
+		elseif "i" == mode()
+			highlight mode				ctermfg=white			ctermbg=black		cterm=bold
+			return " INSERT "
+		elseif "R" == mode()
+			highlight node				ctermfg=yellow		ctermfg=black		cterm=bold
+			return " REPLACE"
+		else
+			highlight mode				ctermfg=red				ctermbg=black		cterm=bold
+			return " UNKNOWN"
+		endif
+	endfunction
+
 	set laststatus=2
 	highlight pathToFile      ctermfg=darkgray  ctermbg=0 cterm=bold
 	highlight stdColor        ctermfg=white     ctermbg=0
 	set statusline = ""
-	set statusline+=%<%#pathToFile#%{getcwd()}\/%#stdColor#%f%m\  "show the filename of the window
+	if g:StatusLineMode
+		set statusline+=%#mode#
+		set statusline+=%{ModeToString()}
+	endif
 
-	set statusline+=%=\ Line:%l\/%L\ %P                           "show the linenumbers and the percentage
-	if !exists('$TMUX')
+	if g:StatusLinePath
+		set statusline+=%<%#pathToFile#%{getcwd()}\\  "show the filename of the window
+	endif
+
+	set statusline+=/%#stdColor#%f%m
+
+	if g:StatusLineRegion
+		set statusline+=%=\ Line:%l\/%L\ %P                           "show the linenumbers and the percentage
+	endif
+	if !exists('$TMUX') && g:StatusLineTime
 		highlight currentTime   ctermfg=red   ctermbg=black
-		set statusline+=\%#currentTime#\ 
+		set statusline+=\%#currentTime#\
 		set statusline+=%=%{strftime('%Y\ %b\ %d\ %a\ %H:%M')}\   "show date & time in the statusline
 	endif
 endif
@@ -284,6 +331,24 @@ highlight colorcolumn ctermbg=darkgrey guibg=lightgrey
 au FocusLost,WinLeave * :setlocal norelativenumber
 au BufEnter,FocusGained,VimEnter,WinEnter * :setlocal relativenumber
 au VimResized * execute "normal! \<c-w>="
+
+"Netrw settings + toggle
+let g:netrw_browse_split = 1
+let g:netrw_winsize = 20
+let g:netrw_liststyle = 3
+function! ToggleNetrw()
+	let wasOpen = 0
+	for i in filter(range(1, bufnr("$")), 'bufexists(v:val)')
+		if "netrw" == getbufvar(i, "&filetype")
+			silent exe "bwipeout " . i
+			let wasOpen = 1
+		endif
+	endfor
+	if !wasOpen
+		silent Lexplore
+	endif
+endfunction
+nnoremap <silent>	<leader>ex	:call ToggleNetrw()<CR>
 
 " easy project navigation
 function! GoToTopDirectory(command, fileInTopDir)
