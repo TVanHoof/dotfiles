@@ -245,6 +245,13 @@ function! MyVisualSurround(lhs, rhs, mode)
 	endif
 endfunction
 
+function! MyNormalChangeSurround(from_l, from_r, to_l, to_r, mode)
+	execute a:mode . "map cs" . a:from_l . a:to_l . " f". a:from_r . "r" . a:to_r . "F" . a:from_l . "r" . a:to_l
+	execute a:mode . "map cs" . a:from_l . a:to_r . " f". a:from_r . "r" . a:to_r . "F" . a:from_l . "r" . a:to_l
+	execute a:mode . "map cs" . a:from_r . a:to_l . " f". a:from_r . "r" . a:to_r . "F" . a:from_l . "r" . a:to_l
+	execute a:mode . "map cs" . a:from_r . a:to_r . " f". a:from_r . "r" . a:to_r . "F" . a:from_l . "r" . a:to_l
+endfunction
+
 call MyVisualSurround("(", ")", "vnore")
 call MyVisualSurround("[", "]", "vnore")
 call MyVisualSurround("{", "}", "vnore")
@@ -254,6 +261,15 @@ vnoremap	<expr> < mode() ==# 'V' ? "<gv" : mode() ==# 'v' ? "<Esc>`>a><Esc>m>`<i
 vnoremap	<expr> > mode() ==# 'V' ? ">gv" : mode() ==# 'v' ? "<Esc>`>a><Esc>m>`<i<<Esc>lm>gv" : "A><Esc>`>lm>gvI<<Esc>lm<gv"
 "manually entered surround for " because it breaks MyVisualSurround
 vnoremap <expr>	"	mode() ==# 'v' ? "<Esc>`>a\"<Esc>m>`<i\"<Esc>lm<gv" : "A\"<Esc>m>gvI\"<Esc>lm<gv"
+
+let OpenCloseTuple=[["(", ")"], ["{","}"], ["[","]"], ["<",">"], ["'","'"], ["\"", "\""]]
+for i in OpenCloseTuple
+	for j in OpenCloseTuple
+		if i != j
+			call MyNormalChangeSurround(i[0], i[1], j[0], j[1], "nnore")
+		endif
+	endfor
+endfor
 
 
 " ---------
