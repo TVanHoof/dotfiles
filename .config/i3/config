@@ -148,7 +148,10 @@ bindsym $mod+s fullscreen
 #bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+bindsym $mod+shift+space floating toggle
+
+#toggle tabbed / windowed
+bindsym $mod+shift+Return layout toggle tabbed splith splitv
 
 # change focus between tiling / floating windows
 bindsym $mod+plus focus mode_toggle
@@ -357,6 +360,7 @@ mode "$mode_gaps_outer" {
 for_window [instance="dropdown"] floating enable
 # for_window [instance="dropdown"] resize set 800 480
 for_window [instance="dropdown"] move scratchpad
+for_window [instance="dropdown"] sticky enable
 for_window [instance="dropdown"] border pixel 2
 exec --no-startup-id $term -name dropdown -e tmux_dropdown &
 
