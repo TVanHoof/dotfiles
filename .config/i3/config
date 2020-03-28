@@ -53,8 +53,8 @@ bindsym $mod+space exec dmenu_run
 # bindsym $mod+d exec --no-startup-id i3-dmenu-desktop
 
 # create usefull shortcuts
-bindsym $mod+shift+Escape   exec python2 ~/Workspace/power_menu/power_menu.py       #controlled escape 
-bindsym $mod+w              exec chromium                                           #mnemonic:    web
+bindsym $mod+shift+Escape   exec python2 ~/Workspace/power_menu/power_menu.py       #controlled escape
+bindsym $mod+w              exec brave                                              #mnemonic:    web
 bindsym $mod+f              exec $term -e ranger                                    #mnemonic:    files
 bindsym $mod+m              exec spotify                                            #mnemonic:    music
 bindsym $mod+i              exec $term -e htop                                      #mnemonic:    info
@@ -148,7 +148,7 @@ bindsym $mod+s fullscreen
 #bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle 
+bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
 bindsym $mod+plus focus mode_toggle
@@ -229,7 +229,7 @@ bindsym $mod+r mode "resize"
 # Change the variable name at the place you want to match the color
 # of your terminal like this:
 # [example]
-# If you want your bar to have the same background color as your 
+# If you want your bar to have the same background color as your
 # terminal background change the line 362 from:
 # background #14191D
 # to:
@@ -255,9 +255,9 @@ set_from_resource $term_color14    color14
 set_from_resource $term_color15    color15
 
 set_from_resource $active_border_color    active_border_color
-set_from_resource $active_bg_color        active_bg_color        
-set_from_resource $active_text_color      active_text_color      
-set_from_resource $active_indicator       active_indicator       
+set_from_resource $active_bg_color        active_bg_color
+set_from_resource $active_text_color      active_text_color
+set_from_resource $active_indicator       active_indicator
 
 set_from_resource $inactive_border_color  inactive_border_color
 set_from_resource $inactive_bg_color      inactive_bg_color

@@ -13,7 +13,7 @@ export PATH=$PATH:/usr/local/nrf_command_line_tools/nrfjprog:/usr/local/nrf_comm
 
 export EDITOR=vim
 export TERMINAL=urxvt
-export BROWSER=Chromium
+export BROWSER=brave
 
 export DOTFILES="$HOME/.dotfiles"
 
