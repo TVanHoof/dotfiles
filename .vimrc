@@ -74,8 +74,8 @@ autocmd!
 vnoremap	<C-c>				"*y
 inoremap	<C-v>				<C-r>*
 vnoremap	<C-v>				c<C-r>*
-map			Y					y$
-nmap		<Del>				<Nop>
+nnoremap	Y						y$
+nmap			<Del>				<Nop>
 
 " remove all autocmds before sourcing the new set
 autocmd!
@@ -102,13 +102,15 @@ nnoremap	<silent> <leader>]		:cn<CR>zz
 nnoremap	<silent> <leader>[		:cp<CR>zz
 
 "commands for C programming
-autocmd Filetype c,cpp inoremap	{<CR>		{<CR>}<Esc>O
-autocmd Filetype c,cpp vnoremap	{<CR>		S{<CR>}<Esc>Pk=iB
-autocmd Filetype c,cpp inoremap	/*<CR>		/*<CR>*/<Esc>O
-autocmd Filetype c,cpp inoremap	(			()<Left>
-autocmd Filetype c,cpp inoremap	<expr> )	strpart(getline('.'), col('.')-1,1) == ")" ? "\<Right>" : ")"
-autocmd Filetype c,cpp nmap		<Leader>i	<Esc>%ky$j%A/*<Esc>p
-autocmd Filetype c,cpp nmap		<Leader>f	<Esc>%kf(hyiwj%A/*<Esc>p
+augroup C_progamming
+	autocmd Filetype c,cpp inoremap	{<CR>					{<CR>}<Esc>O
+	autocmd Filetype c,cpp inoremap	/*<CR>				/*<CR>*/<Esc>O
+	autocmd Filetype c,cpp inoremap	(							()<Left>
+	autocmd Filetype c,cpp inoremap	<expr> )			strpart(getline('.'), col('.')-1,1) == ")" ? "\<Right>" : ")"
+	autocmd Filetype c,cpp nmap			<Leader>i			<Esc>%ky$j%A/*<Esc>p
+	autocmd Filetype c,cpp nmap			<Leader>f			<Esc>%kf(hyiwj%A/*<Esc>p
+	autocmd Filetype c,cpp nnoremap <leader><CR>	^elr(<Esc>A){<CR>}<Esc>O
+augroup END
 
 filetype plugin on
 filetype indent on
@@ -116,17 +118,15 @@ autocmd  FileType c,h,cpp,hpp	:setlocal cindent
 augroup commenting
 	autocmd Filetype c,cpp,h,hpp	nnoremap	<buffer>	<expr>	<leader>c getline('.') =~ '^\s//.*' ? '^"_2x' : 'I//<Esc>'
 	autocmd Filetype c,cpp,h,hpp	vnoremap	<buffer>	<expr>	<leader>c mode ==# 'v' ? 'c/*<c-r>"*/<Esc>gv4l' : mode ==# 'V' ? 'I//<Esc>gv' : 'A*/<Esc>gvI/*<Esc>'
-	autocmd Filetype python				nnoremap	<buffer>	<expr>	<leader>c getline('.') =~ '^\s--.*' ? '^"_2x' : 'I--<Esc>'
-	autocmd Filetype python				vnoremap	<buffer>	<leader>c 				I--<esc>
-	autocmd Filetype sh						nnoremap	<buffer>	<expr>	<leader>c getline('.') =~ '^\s#.*' ? '^"_2x' : 'I#<Esc>'
-	autocmd Filetype sh						vnoremap	<buffer>	<leader>c 				I#<esc>
+	autocmd Filetype python,sh		nnoremap	<buffer>	<expr>	<leader>c getline('.') =~ '^\s#.*' ? '^"_x' : 'I#<Esc>'
+	autocmd Filetype python,sh		vnoremap	<buffer>	<leader>c 				I#<esc>
 augroup end
 
 autocmd Filetype c,cpp,h,hpp	nmap <lead>(	^wv$(<Esc>
 autocmd Filetype c,cpp,h,hpp	nmap <lead><CR>	^elr(<Esc>A){<CR>
 
 "remove trailing white chars before writing to disk
-autocmd BufWritePre * ;%s/\s\+$//e
+autocmd BufWritePre * :%s/\s\+$//e
 
 " --------------------
 " GUI stuff
@@ -236,6 +236,8 @@ call Abbrev("vehicel", "vehicle", "inore")
 " -----------------------------
 " My implementation of surround
 " -----------------------------
+" when a:lhs or a:rhs is pressed in visual mode, the selected text will be
+" surrounded by them
 function! MyVisualSurround(lhs, rhs, mode)
 	if a:lhs == a:rhs
 		exe a:mode . "map <expr> " . a:lhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:lhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:lhs . "<Esc>m>gvI" . a:lhs . "<Esc>lm<gv\""
@@ -245,11 +247,17 @@ function! MyVisualSurround(lhs, rhs, mode)
 	endif
 endfunction
 
+" when cs<arg1><arg2> is pressed the surrounding <arg1> will be changed to <arg2>
 function! MyNormalChangeSurround(from_l, from_r, to_l, to_r, mode)
 	execute a:mode . "map cs" . a:from_l . a:to_l . " f". a:from_r . "r" . a:to_r . "F" . a:from_l . "r" . a:to_l
 	execute a:mode . "map cs" . a:from_l . a:to_r . " f". a:from_r . "r" . a:to_r . "F" . a:from_l . "r" . a:to_l
 	execute a:mode . "map cs" . a:from_r . a:to_l . " f". a:from_r . "r" . a:to_r . "F" . a:from_l . "r" . a:to_l
 	execute a:mode . "map cs" . a:from_r . a:to_r . " f". a:from_r . "r" . a:to_r . "F" . a:from_l . "r" . a:to_l
+endfunction
+
+function! MyNormalDeleteSurround(from, to, mode)
+	execute a:mode . "map ds" . a:from . " f" . a:to . "\"_xF" . a:from . "\"x"
+	execute a:mode . "map ds" . a:to   . " f" . a:to . "\"_xF" . a:from . "\"x"
 endfunction
 
 call MyVisualSurround("(", ")", "vnore")
@@ -269,6 +277,7 @@ for i in OpenCloseTuple
 			call MyNormalChangeSurround(i[0], i[1], j[0], j[1], "nnore")
 		endif
 	endfor
+	call MyNormalDeleteSurround(i[0],i[1], "nnore")
 endfor
 
 
@@ -290,6 +299,7 @@ highlight SpecialKey ctermfg=0 guifg=gray
 if has('statusline')
 	let g:StatusLineMode=0
 	let g:StatusLinePath=1
+	let g:StatusLineFileType=0
 	let g:StatusLineRegion=1
 	let g:StatusLineTime=1
 
@@ -329,14 +339,18 @@ if has('statusline')
 	endif
 
 	set statusline+=/%#stdColor#%f%m
+	set statusline+=%=
+	if g:StatusLineFileType
+		set statusline+=%y
+	endif
 
 	if g:StatusLineRegion
-		set statusline+=%=\ Line:%l\/%L\ %P                           "show the linenumbers and the percentage
+		set statusline+=\ Line:%l\/%L\ %P                           "show the linenumbers and the percentage
 	endif
 	if !exists('$TMUX') && g:StatusLineTime
 		highlight currentTime   ctermfg=red   ctermbg=black
-		set statusline+=\%#currentTime#\
-		set statusline+=%=%{strftime('%Y\ %b\ %d\ %a\ %H:%M')}\   "show date & time in the statusline
+		set statusline+=\ %#currentTime#
+		set statusline+=%{strftime('%Y\ %b\ %d\ %a\ %H:%M')}\   "show date & time in the statusline
 	endif
 endif
 
