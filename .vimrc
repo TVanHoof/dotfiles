@@ -79,6 +79,9 @@ vnoremap	<C-v>				c<C-r>*
 nnoremap	Y						y$
 nmap			<Del>				<Nop>
 
+vnoremap	<C-j>				:m '>+1<CR>gv=gv
+vnoremap	<C-k>				:m '<-2<CR>gv=gv
+
 " remove all autocmds before sourcing the new set
 autocmd!
 
