@@ -45,8 +45,10 @@ set splitbelow
 set splitright
 
 " searching
+set ignorecase				" search case insensitive
+set smartcase					" search with smart case
 set nohlsearch				" default no highlight when searching
-set incsearch				" search when typing command
+set incsearch					" search when typing command
 
 " autocompletion
 set wildmenu
