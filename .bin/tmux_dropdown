@@ -28,7 +28,7 @@ tmux send-keys "python" C-m
 tmux send-keys C-l
 
 # create a pane with htop running
-tmux new-window -t $SESSION:3 -n "htop" 
+tmux new-window -t $SESSION:3 -n "htop"
 tmux send-keys "htop" C-m
 
 # enable fast switching to notes

@@ -1,0 +1,42 @@
+# terminal
+super + Return
+	urxvt
+
+#launcher
+super + @space
+	dmenu_run
+
+#power menu
+super + shift + Escape
+	python2 ~/Workspace/power_menu/power_menu.py
+
+#browser -> mnemomic web
+super + w
+	brave
+
+#filemanager -> mnemonic file
+super + f
+	urxvt -e ranger
+
+#music -> mnemonic music
+super + m
+	spotify
+
+#info
+super + i
+	urxvt -e htop
+
+#audio
+super + a
+	urxvt -e alsamixer
+
+
+#general controls
+XF86AudioRaiseVolume
+	amixer set Master 1+ && UpdateStatusBar.sh
+
+XF86AudioLowerVolume
+	amixer set Master 1- && UpdateStatusBar.sh
+
+XF86AudioMute
+	amixer set Master toggle && UpdateStatusBar.sh
