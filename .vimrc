@@ -92,11 +92,6 @@ autocmd!
 nnoremap	<leader>ve		:tabnew $MYVIMRC<CR>
 nnoremap	<leader>vr		:source $MYVIMRC<CR>
 
-" quickly write, quit, ...
-nnoremap	<leader>w		:w<CR>
-nnoremap	<leader>x		:x<CR>
-nnoremap	<leader>q		:q!<CR>
-
 " inverters for commonly used settings
 nnoremap	<silent> <leader>ih		:set invhlsearch<CR>
 nnoremap	<silent> <leader>il		:set invlist<CR>
@@ -285,14 +280,30 @@ for i in OpenCloseTuple
 	call MyNormalDeleteSurround(i[0],i[1], "nnore")
 endfor
 
+" -------------------
+"  LANGUAGE SELECTION
+" -------------------
+let g:selected_language = 0
+function! SelectNextLanguage()
+	let l:languages_selection = ["en_us", "nl", "fr_fr", "de_de"]
+	set spellang=l:languages_selection[g:selected_language]
+	echom "selected language changed to " . l:languages_selection[g:selected_language]
+	let g:selected_language = g:selected_language + 1
+	if len(l:languages_selection) <= g:selected_language
+		let g:selected_language = 0
+	endif
+endfunction
+
+autocmd Filetype tex,latex,txt,markdown nnoremap <buffer> <leader>l call SelectNextLanguage<cr>
+autocmd BufRead,BufNewFile tex,latex,txt,markdown setlocal spell
 
 " ---------
 " GRAPHICAL
 " ---------
 syntax on                                               " enable syntax highlighting
 set bg=dark                                             " background color
-set listchars=tab:⊃\                                    " symbol for visibility of tab characters
-set listchars+=eol:¬                                    " symbol for visibility of the end of line character
+set listchars=tab:¬\                                    " symbol for visibility of tab characters
+set listchars+=eol:⊃                                    " symbol for visibility of the end of line character
 set listchars+=extends:>                                " symbol for visibility of an incomplete line
 set listchars+=precedes:<                               " symbol for visibility of an incomplete line
 set listchars+=trail:•                                  " symbol for visibility of trailing white spaces
