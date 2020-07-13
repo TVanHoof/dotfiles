@@ -59,6 +59,11 @@ function GoToNewDirectory {
     mkdir -p $1 && cd $1 || echo "unable to create directory: $1"
 }
 
+function cd_find {
+	TEMP=$(find -type d | grep -v git | fzf)
+	[ -n "$TEMP" ] && cd $TEMP
+}
+
 function wallpaper {
     ln -sf $PWD/$1 $HOME/Pictures/Wallpapers/wallpaper
     feh --bg-fill $HOME/Pictures/Wallpapers/wallpaper
