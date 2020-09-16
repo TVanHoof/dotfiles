@@ -7,7 +7,7 @@ super + @space
 	dmenu_run
 
 #power menu
-super + shift + Escape
+super + control + Escape
 	python2 ~/Workspace/power_menu/power_menu.py
 
 #browser -> mnemomic web
