@@ -61,7 +61,7 @@ complete -F Completions_workspace tw
 alias wp=wallpaper
 alias cdn=GoToNewDirectory
 alias cdf=cd_find
-alias brc="vim -p ~/.dotfiles/.bashrc ~/.dotfiles/.bash_functions ~/.dotfiles/.bash_shortcuts ~/.dotfiles/.bash_profile ~/.dotfiles/.profile; source ~/.profile; source ~/.bash_profile"
+alias brc="vim -p ~/.dotfiles/.bashrc ~/.dotfiles/.bash_functions ~/.dotfiles/.bash_aliases ~/.dotfiles/.bash_profile ~/.dotfiles/.profile; source ~/.profile; source ~/.bash_profile"
 
 alias ll="ls -al"                         # list al files in list
 alias cp="cp -i"                          # confirm before overwriting something
