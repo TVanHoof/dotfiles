@@ -316,7 +316,6 @@ for_window [instance="dropdown"] sticky enable
 for_window [instance="dropdown"] border pixel 2
 exec --no-startup-id $term -name dropdown -e tmux_dropdown &
 
-exec --no-startup-id compton -i 0.8 -f
 exec --no-startup-id blueman-applet
 exec nm-applet
 exec_always pkill sxhkd; sxhkd&
