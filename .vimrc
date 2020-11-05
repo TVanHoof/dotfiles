@@ -294,8 +294,18 @@ function! SelectNextLanguage()
 	endif
 endfunction
 
-autocmd Filetype tex,latex,txt,markdown nnoremap <buffer> <leader>l call SelectNextLanguage<cr>
-autocmd BufRead,BufNewFile tex,latex,txt,markdown setlocal spell
+autocmd Filetype plaintex,latex,text,markdown nnoremap <buffer> <leader>l call SelectNextLanguage<cr>
+autocmd BufRead,BufNewFile plaintex,latex,text,markdown setlocal spell
+
+" ------
+" SEARCH
+" ------
+function! SearchInProject(...)
+	execute ":grep /" . expand("<cword>") . "/j" . join(a:000, ' ')
+	execute ":copen"
+endfunction
+
+autocmd FileType c,cpp,h,hpp nnoremap <silent> <leader>/ :call SearchInProject("**/*.c", "**/*.h", "**/*.cpp", "**/*.hpp")<CR>
 
 " ---------
 " GRAPHICAL
