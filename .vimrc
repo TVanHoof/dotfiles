@@ -240,10 +240,10 @@ call Abbrev("vehicel", "vehicle", "inore")
 " surrounded by them
 function! MyVisualSurround(lhs, rhs, mode)
 	if a:lhs == a:rhs
-		exe a:mode . "map <expr> " . a:lhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:lhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:lhs . "<Esc>m>gvI" . a:lhs . "<Esc>lm<gv\""
+		exe a:mode . "map <expr> s" . a:lhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:lhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:lhs . "<Esc>m>gvI" . a:lhs . "<Esc>lm<gv\""
 	else
-		exe a:mode . "map <expr> " . a:lhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:rhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:rhs . "<Esc>m>gvI" . a:lhs . "<Esc>lm<gv\""
-		exe a:mode . "map <expr> " . a:rhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:rhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:rhs . "<Esc>m>gvI" . a:lhs . "<Esc>lm<gv\""
+		exe a:mode . "map <expr> s" . a:lhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:rhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:rhs . "<Esc>`>lm>gvI" . a:lhs . "<Esc>lm<gv\""
+		exe a:mode . "map <expr> s" . a:rhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:rhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:rhs . "<Esc>`>lm>gvI" . a:lhs . "<Esc>lm<gv\""
 	endif
 endfunction
 
@@ -268,11 +268,12 @@ call MyVisualSurround("\'", "\'", "vnore")
 vnoremap	<expr> < mode() ==# 'V' ? "<gv" : mode() ==# 'v' ? "<Esc>`>a><Esc>m>`<i<<Esc>lm>gv" : "A><Esc>`>lm>gvI<<Esc>lm<gv"
 vnoremap	<expr> > mode() ==# 'V' ? ">gv" : mode() ==# 'v' ? "<Esc>`>a><Esc>m>`<i<<Esc>lm>gv" : "A><Esc>`>lm>gvI<<Esc>lm<gv"
 "manually entered surround for " because it breaks MyVisualSurround
-vnoremap <expr>	"	mode() ==# 'v' ? "<Esc>`>a\"<Esc>m>`<i\"<Esc>lm<gv" : "A\"<Esc>m>gvI\"<Esc>lm<gv"
+vnoremap <expr>	s"	mode() ==# 'v' ? "<Esc>`>a\"<Esc>m>`<i\"<Esc>lm<gv" : "A\"<Esc>`>lm>gvI\"<Esc>lm<gv"
 
-let OpenCloseTuple=[["(", ")"], ["{","}"], ["[","]"], ["<",">"], ["'","'"], ["\"", "\""]]
-for i in OpenCloseTuple
-	for j in OpenCloseTuple
+let OpenCloseTuples=[["(", ")"], ["{","}"], ["[","]"], ["<",">"], ["'","'"], ["\"", "\""]]
+for i in OpenCloseTuples
+	let StartIndex = index(OpenCloseTuples, i)
+	for j in OpenCloseTuples[StartIndex:-1]
 		if i != j
 			call MyNormalChangeSurround(i[0], i[1], j[0], j[1], "nnore")
 		endif
