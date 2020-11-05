@@ -228,6 +228,7 @@ endfunction
 
 call Abbrev("flase", "false", "inore")
 call Abbrev("deifne", "define", "inore")
+call Abbrev("swtich", "switch", "inore")
 call Abbrev("disalbe", "disable", "inore")
 call Abbrev("enalbe", "enable", "inore")
 call Abbrev("funcition", "function", "inore")
