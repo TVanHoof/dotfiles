@@ -240,10 +240,8 @@ call Abbrev("vehicel", "vehicle", "inore")
 " when a:lhs or a:rhs is pressed in visual mode, the selected text will be
 " surrounded by them
 function! MyVisualSurround(lhs, rhs, mode)
-	if a:lhs == a:rhs
-		exe a:mode . "map <expr> s" . a:lhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:lhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:lhs . "<Esc>m>gvI" . a:lhs . "<Esc>lm<gv\""
-	else
 		exe a:mode . "map <expr> s" . a:lhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:rhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:rhs . "<Esc>`>lm>gvI" . a:lhs . "<Esc>lm<gv\""
+	if a:lhs != a:rhs
 		exe a:mode . "map <expr> s" . a:rhs . " mode() ==# 'v' ? \"<Esc>`>a" . a:rhs . "<Esc>m>`<i" . a:lhs . "<Esc>lm<gv\" : \"A" . a:rhs . "<Esc>`>lm>gvI" . a:lhs . "<Esc>lm<gv\""
 	endif
 endfunction
@@ -257,8 +255,10 @@ function! MyNormalChangeSurround(from_l, from_r, to_l, to_r, mode)
 endfunction
 
 function! MyNormalDeleteSurround(from, to, mode)
-	execute a:mode . "map ds" . a:from . " f" . a:to . "\"_xF" . a:from . "\"x"
-	execute a:mode . "map ds" . a:to   . " f" . a:to . "\"_xF" . a:from . "\"x"
+	execute a:mode . "map ds" . a:from . " f" . a:to . "\"_xF" . a:from . "\"_x"
+	if a:from != a:to
+		execute a:mode . "map ds" . a:to   . " f" . a:to . "\"_xF" . a:from . "\"_x"
+	endif
 endfunction
 
 call MyVisualSurround("(", ")", "vnore")
@@ -273,8 +273,7 @@ vnoremap <expr>	s"	mode() ==# 'v' ? "<Esc>`>a\"<Esc>m>`<i\"<Esc>lm<gv" : "A\"<Es
 
 let OpenCloseTuples=[["(", ")"], ["{","}"], ["[","]"], ["<",">"], ["'","'"], ["\"", "\""]]
 for i in OpenCloseTuples
-	let StartIndex = index(OpenCloseTuples, i)
-	for j in OpenCloseTuples[StartIndex:-1]
+	for j in OpenCloseTuples
 		if i != j
 			call MyNormalChangeSurround(i[0], i[1], j[0], j[1], "nnore")
 		endif
