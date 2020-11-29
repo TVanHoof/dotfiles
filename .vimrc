@@ -389,7 +389,7 @@ au FocusLost,WinLeave * :setlocal norelativenumber
 au BufEnter,FocusGained,VimEnter,WinEnter * :setlocal relativenumber
 au VimResized * execute "normal! \<c-w>="
 
-"Netrw settings + toggle
+"Netrw settings
 let g:netrw_browse_split = 1
 let g:netrw_winsize = 20
 let g:netrw_liststyle = 3
@@ -405,7 +405,26 @@ function! ToggleNetrw()
 		silent Lexplore
 	endif
 endfunction
+
+function! OpenSelectedFileWith(cmd)
+	:normal v
+	let l:path=expand('%:p')
+	execute 'q!'
+	execute a:cmd . ' ' . l:path
+endfunction
+
+function! NetRwMappings()
+	nnoremap <silent> <buffer> <C-h> <C-w>h
+	nnoremap <silent> <buffer> <C-j> <C-w>j
+	nnoremap <silent> <buffer> <C-k> <C-w>k
+	nnoremap <silent> <buffer> <C-l> <C-w>l
+	nnoremap <silent> <leader>V		:call OpenSelectedFileWith('belowright vnew')<CR>
+	nnoremap <silent> <leader>H		:call OpenSelectedFileWith('belowright new')<CR>
+	nnoremap <silent> <leader>T		:call OpenSelectedFileWith('tabedit')<CR>
+endfunction
 nnoremap <silent>	<leader>ex	:call ToggleNetrw()<CR>
+
+autocmd filetype netrw call NetRwMappings()
 
 " easy project navigation
 function! GoToTopDirectory(command, fileInTopDir)
