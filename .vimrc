@@ -394,14 +394,14 @@ let g:netrw_browse_split = 1
 let g:netrw_winsize = 20
 let g:netrw_liststyle = 3
 function! ToggleNetrw()
-	let wasOpen = 0
-	for i in filter(range(1, bufnr("$")), 'bufexists(v:val)')
+	let l:wasOpen = 0
+	for i in tabpagebuflist('.')
 		if "netrw" == getbufvar(i, "&filetype")
 			silent exe "bwipeout " . i
-			let wasOpen = 1
+			let l:wasOpen = 1
 		endif
 	endfor
-	if !wasOpen
+	if !l:wasOpen
 		silent Lexplore
 	endif
 endfunction
@@ -428,22 +428,23 @@ autocmd filetype netrw call NetRwMappings()
 
 " easy project navigation
 function! GoToTopDirectory(command, fileInTopDir)
-	execute a:command ' -'
-	let l:startPrevDir = getcwd()       "restore previous working directory if necessary
-	execute a:command ' -'
-	let l:start = getcwd()              "restore cwd if necessary
-	while !filereadable(a:fileInTopDir)
-		let l:prevdir = getcwd()
-		execute a:command ' ..'
-		if l:prevdir == getcwd()
-			execute a:command fnameescape(l:startPrevDir)
-			execute a:command fnameescape(l:start)
+	let l:separator = "/"
+	let l:prependPath = "/"
+	if has('win32')
+		let l:separtor = "\\"
+		let l:prependPath = ""
+	endif
+	let l:SearchPath = split(getcwd(), l:separator)
+	let l:CurrIndex = -1
+
+	while !filereadable(l:prependPath . join(l:SearchPath[:l:CurrIndex], l:separator) . l:separator . a:fileInTopDir)
+		let l:CurrIndex = l:CurrIndex - 1
+		if len(l:SearchPath) == -1 * l:CurrIndex
 			return
 		endif
 	endwhile
-	let l:topDir = getcwd()
-	execute a:command fnameescape(l:start)
-	execute a:command fnameescape(l:topDir)
+
+	execute a:command l:prependPath . join(l:SearchPath[:l:CurrIndex], l:separator)
 endfunction
 
 if filereadable(".vimlocalconfig")
