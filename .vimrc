@@ -330,8 +330,18 @@ if has('statusline')
 	let g:StatusLineRegion=1
 	let g:StatusLineTime=1
 
+	if g:StatusLineMode
+		if !exists("g:StatusLineMode")
+			let g:ActiveWinNr=-1;
+		endif
+		autocmd BufWinEnter,VimEnter,WinEnter,TabEnter * :let g:ActiveWinNr=winnr()
+	endif
+
+
 	function! ModeToString()
-		if "n" == mode()
+		if winnr() != g:ActiveWinNr
+			return ""
+		elseif "n" == mode()
 			highlight mode				ctermfg=grey			ctermbg=black		cterm=bold
 			return " NORMAL "
 		elseif "v" == mode() || "V" == mode()
