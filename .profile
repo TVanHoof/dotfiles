@@ -8,17 +8,25 @@
 # for ssh logins, install and configure the libpam-umask package.
 #umask 022
 
-#add the nrf command line tools to the path
-export PATH=$PATH:/usr/local/nrf_command_line_tools/nrfjprog:/usr/local/nrf_command_line_tools/mergehex
-
 export EDITOR=vim
+export VISUAL=vim
 export TERMINAL=urxvt
 export BROWSER=brave
+export OPENER=xdg-open
 
 export DOTFILES="$HOME/.dotfiles"
 
+export XDG_DATA_HOME=${XDG_DATA_HOME:="$HOME/.local/share"}
+export XDG_CAHCE_HOME=${XDG_CAHCE_HOME:="$HOME/.cache"}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:="$HOME/.config"}
+
+export LESSHISTFILE=-
+
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+
+#add the nrf command line tools to the path
+export PATH=$PATH:/usr/local/nrf_command_line_tools/nrfjprog:/usr/local/nrf_command_line_tools/mergehex
 
 # if running bash
 if [ -n "$BASH_VERSION" ]; then
