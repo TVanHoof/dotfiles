@@ -8,7 +8,7 @@ super + @space
 
 #power menu
 super + control + Escape
-	python2 ~/Workspace/power_menu/power_menu.py
+	~/Workspace/power_menu/power_menu.py
 
 #browser -> mnemomic web
 super + w
