@@ -1,21 +1,9 @@
 ### general shortcuts to go to, create new tab in, move file to & copy file to destination ###
 function GenerateShortcuts {
-    alias g$1="goto $2"
+    alias g$1="cd $2/$3"
     alias t$1="tabto $2"
-    alias m$1="moveto $2"
-    alias y$1="copyto $2"
-}
-
-function moveto {
-    mv $2 $1
-}
-
-function copyto {
-    cp $2 $1
-}
-
-function goto {
-    cd $1/$2
+    alias m$1="mv '$3' '$2'"
+    alias y$1="cp '$3' '$2'"
 }
 
 function tabto {
