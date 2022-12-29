@@ -1,3 +1,7 @@
+" Welcome to VIM and my vimconfig
+" In case you want to load this file from another file set "g:LocalVimRc" to
+" the path of this file before sourcing
+
 " ------------------
 " set default values
 " ------------------
@@ -12,7 +16,7 @@ set noautoindent			" try to autoindent automatically
 set smartindent				" use indent after {, keywords, ...
 set autoread				" keep file up to date
 
-set term=screen-256color
+"set term=screen-256color
 
 " visualisation of position
 set cursorline				" show underline for current cursor
@@ -53,7 +57,7 @@ set incsearch					" search when typing command
 " autocompletion
 set wildmenu
 set wildmode=list:full
-set wildignore=*.o,*.a,*.hex,*.lib,*git
+set wildignore=*.o,*.a,*.hex,*.lib,*.exe,*.arj,*.pdb,*.bsc,*ncb,*.sbr,*.pch,*.pchast,*.dll,*.exp,*.vdx,*.xdc,*.obj,tags
 set completeopt=menu,longest,preview
 
 " stop bell
@@ -82,14 +86,14 @@ nmap			<Del>				<Nop>
 vnoremap	<C-j>				:m '>+1<CR>gv=gv
 vnoremap	<C-k>				:m '<-2<CR>gv=gv
 
-" remove all autocmds before sourcing the new set
-autocmd!
-
 " ----------------------
 " Useful leader mappings
 " ----------------------
 " edit and reload my vimrc
-nnoremap	<leader>ve		:tabnew $MYVIMRC<CR>
+if !exists("g:LocalVimRc")
+	let g:LocalVimRc=$MYVIMRC
+endif
+nnoremap	<expr> <leader>ve		":tabnew " . g:LocalVimRc . "<CR>"
 nnoremap	<leader>vr		:source $MYVIMRC<CR>
 
 " inverters for commonly used settings
@@ -107,8 +111,8 @@ augroup C_progamming
 	autocmd Filetype c,cpp inoremap	/*<CR>				/*<CR>*/<Esc>O
 	autocmd Filetype c,cpp inoremap	(							()<Left>
 	autocmd Filetype c,cpp inoremap	<expr> )			strpart(getline('.'), col('.')-1,1) == ")" ? "\<Right>" : ")"
-	autocmd Filetype c,cpp nmap			<Leader>i			<Esc>%ky$j%A/*<Esc>p
-	autocmd Filetype c,cpp nmap			<Leader>f			<Esc>%kf(hyiwj%A/*<Esc>p
+	"autocmd Filetype c,cpp nmap			<Leader>i			<Esc>%ky$j%A/*<Esc>p
+	"autocmd Filetype c,cpp nmap			<Leader>f			<Esc>%kf(hyiwj%A/*<Esc>p
 	autocmd Filetype c,cpp nnoremap <leader><CR>	^elr(<Esc>A){<CR>}<Esc>O
 augroup END
 
@@ -117,7 +121,7 @@ filetype indent on
 autocmd  FileType c,h,cpp,hpp	:setlocal cindent
 augroup commenting
 	autocmd Filetype c,cpp,h,hpp	nnoremap	<buffer>	<expr>	<leader>c getline('.') =~ '^\s//.*' ? '^"_2x' : 'I//<Esc>'
-	autocmd Filetype c,cpp,h,hpp	vnoremap	<buffer>	<expr>	<leader>c mode ==# 'v' ? 'c/*<c-r>"*/<Esc>gv4l' : mode ==# 'V' ? 'I//<Esc>gv' : 'A*/<Esc>gvI/*<Esc>'
+	autocmd Filetype c,cpp,h,hpp	vnoremap	<buffer>	<expr>	<leader>c mode() ==# 'v' ? 'c/*<c-r>"*/<Esc>gv4l' : mode() ==# 'V' ? ':norm I//<CR>gv' : 'A*/<Esc>gvI/*<Esc>'
 	autocmd Filetype python,sh		nnoremap	<buffer>	<expr>	<leader>c getline('.') =~ '^\s#.*' ? '^"_x' : 'I#<Esc>'
 	autocmd Filetype python,sh		vnoremap	<buffer>	<leader>c 				I#<esc>
 augroup end
@@ -145,7 +149,7 @@ if has('gui')
 	set langmenu=en_US.UTF-8
 
 	"menu enable and disable
-	nnoremap <expr>		<leader>im	&guioptions=~#".*m.*" ? "set guioptions-=m<CR>" : "set guioptions+=m<CR>"
+	nnoremap <expr> <leader>im &guioptions=~#".*m.*" ? ":set guioptions-=m<CR>" : ":set guioptions+=m<CR>"
 
 	"open gui vim maximzed
 	au GUIEnter * simalt ~x
@@ -233,6 +237,7 @@ call Abbrev("disalbe", "disable", "inore")
 call Abbrev("enalbe", "enable", "inore")
 call Abbrev("funcition", "function", "inore")
 call Abbrev("vehicel", "vehicle", "inore")
+call Abbrev("reutrn", "return", "inore")
 
 " -----------------------------
 " My implementation of surround
@@ -287,7 +292,7 @@ endfor
 let g:selected_language = 0
 function! SelectNextLanguage()
 	let l:languages_selection = ["en_us", "nl", "fr_fr", "de_de"]
-	set spellang=l:languages_selection[g:selected_language]
+	set spelllang=l:languages_selection[g:selected_language]
 	echom "selected language changed to " . l:languages_selection[g:selected_language]
 	let g:selected_language = g:selected_language + 1
 	if len(l:languages_selection) <= g:selected_language
@@ -302,37 +307,51 @@ autocmd BufRead,BufNewFile plaintex,latex,text,markdown setlocal spell
 " SEARCH
 " ------
 function! SearchInProject(...)
-	execute ":grep /" . expand("<cword>") . "/j" . join(a:000, ' ')
+	let l:SearchTerm = input("Search for: ")
+	if "" != l:SearchTerm
+		execute "vimgrep /\\" . l:SearchTerm . "\\>/j " join(a:000, ' ')
+		execute ":copen"
+	endif
+endfunction
+
+function! SearchCurrWordProject(...)
+	execute ":vimgrep /\\<" . expand("<cword>") . "\\>/j " . join(a:000, ' ')
 	execute ":copen"
 endfunction
 
-autocmd FileType c,cpp,h,hpp nnoremap <silent> <leader>/ :call SearchInProject("**/*.c", "**/*.h", "**/*.cpp", "**/*.hpp")<CR>
+autocmd FileType c,cpp,h,hpp nnoremap <silent> <leader>/ :call SearchCurrWordProject("**/*.c", "**/*.h", "**/*.cpp", "**/*.hpp")<CR>
+autocmd FileType c,cpp,h,hpp nnoremap <silent> <leader>? :call SearchInProject("**/*.c", "**/*.h", "**/*.cpp", "**/*.hpp")<CR>
 
-" ---------
-" GRAPHICAL
-" ---------
-syntax on                                               " enable syntax highlighting
-set bg=dark                                             " background color
-set listchars=tab:Â¬\                                    " symbol for visibility of tab characters
-set listchars+=eol:âŠƒ                                    " symbol for visibility of the end of line character
-set listchars+=extends:>                                " symbol for visibility of an incomplete line
-set listchars+=precedes:<                               " symbol for visibility of an incomplete line
-set listchars+=trail:â€¢                                  " symbol for visibility of trailing white spaces
-set list                                                " show special characters
-highlight NonText ctermfg=0 guifg=gray
-highlight SpecialKey ctermfg=0 guifg=gray
+"" ---------
+"" GRAPHICAL
+"" ---------
+syntax on                   " enable syntax highlighting
+if !exists('$TMUX')
+	set listchars=tab:»\        " symbol for visibility of tab characters
+	set listchars+=eol:¬        " symbol for visibility of the end of line character
+	set listchars+=extends:>    " symbol for visibility of an incomplete line
+	set listchars+=precedes:<   " symbol for visibility of an incomplete line
+	set listchars+=trail:·      " symbol for visibility of trailing white spaces
+	set list                    " show special characters
+endif
+if has('gui')
+	highlight NonText ctermfg=0
+	highlight SpecialKey ctermfg=0
+else
+	set bg=dark
+endif
 
 "statusline
 if has('statusline')
-	let g:StatusLineMode=0
-	let g:StatusLinePath=1
-	let g:StatusLineFileType=0
-	let g:StatusLineRegion=1
-	let g:StatusLineTime=1
+	if !exists("g:StatusLineMode")			| let g:StatusLineMode=0			| endif
+	if !exists("g:StatusLinePath")			| let g:StatusLinePath=1			| endif
+	if !exists("g:StatusLineFileType")	| let g:StatusLineFileType=0	| endif
+	if !exists("g:StatusLineRegion")		| let g:StatusLineRegion=1		| endif
+	if !exists("g:StatusLineTime")			| let g:StatusLineTime=0			| endif
 
 	if g:StatusLineMode
-		if !exists("g:StatusLineMode")
-			let g:ActiveWinNr=-1;
+		if !exists("g:ActiveWinNr")
+			let g:ActiveWinNr=-1
 		endif
 		autocmd BufWinEnter,VimEnter,WinEnter,TabEnter * :let g:ActiveWinNr=winnr()
 	endif
@@ -342,29 +361,33 @@ if has('statusline')
 		if winnr() != g:ActiveWinNr
 			return ""
 		elseif "n" == mode()
-			highlight mode				ctermfg=grey			ctermbg=black		cterm=bold
+			highlight mode				ctermfg=grey			ctermbg=black		cterm=bold		guifg=grey		guibg=black		gui=bold
 			return " NORMAL "
 		elseif "v" == mode() || "V" == mode()
-			highlight mode				ctermfg=green			ctermbg=black		cterm=bold
+			highlight mode				ctermfg=green			ctermbg=black		cterm=bold		guifg=green		guibg=black		gui=bold
 			return " VISUAL "
 		elseif "s" == mode()
-			highlight mode				ctermfg=blue			ctermbg=black		cterm=bold
+			highlight mode				ctermfg=blue			ctermbg=black		cterm=bold		guifg=blue		guibg=black		gui=bold
 			return " SELECT "
 		elseif "i" == mode()
-			highlight mode				ctermfg=white			ctermbg=black		cterm=bold
+			highlight mode				ctermfg=white			ctermbg=black		cterm=bold		guifg=white		guibg=black		gui=bold
 			return " INSERT "
 		elseif "R" == mode()
-			highlight node				ctermfg=yellow		ctermfg=black		cterm=bold
+			highlight mode				ctermfg=yellow		ctermfg=black		cterm=bold		guifg=yellow	guibg=black		gui=bold
 			return " REPLACE"
+		elseif "c" == mode()
+			highlight mode				ctermfg=magenta		ctermfg=black		cterm=bold		guifg=magenta	guibg=black		gui=bold
+			return " COMMAND"
 		else
-			highlight mode				ctermfg=red				ctermbg=black		cterm=bold
+			highlight mode				ctermfg=red				ctermbg=black		cterm=bold		guifg=red			guibg=black		gui=bold
 			return " UNKNOWN"
 		endif
 	endfunction
 
 	set laststatus=2
-	highlight pathToFile      ctermfg=darkgray  ctermbg=0 cterm=bold
-	highlight stdColor        ctermfg=white     ctermbg=0
+	highlight pathToFile      ctermfg=darkgray  ctermbg=0 cterm=bold guifg=black guibg=darkgrey gui=bold
+	highlight stdColor        ctermfg=white     ctermbg=0            guifg=red   guibg=darkgrey
+	highlight DocSts          ctermfg=white     ctermbg=0 cterm=bold guifg=black guibg=darkgrey gui=bold
 	set statusline = ""
 	if g:StatusLineMode
 		set statusline+=%#mode#
@@ -372,11 +395,16 @@ if has('statusline')
 	endif
 
 	if g:StatusLinePath
-		set statusline+=%<%#pathToFile#%{getcwd()}\\  "show the filename of the window
+		if has('win32')
+			set statusline+=%<%#pathToFile#%{getcwd()}\\  "show the filename of the window
+		else
+			set statusline+=%<%#pathToFile#%{getcwd()}\/  "show the filename of the window
+		endif
 	endif
 
-	set statusline+=/%#stdColor#%f%m
+	set statusline+=%#stdColor#%f%m
 	set statusline+=%=
+	set statusline+=%#DocSts#
 	if g:StatusLineFileType
 		set statusline+=%y
 	endif
@@ -385,7 +413,7 @@ if has('statusline')
 		set statusline+=\ Line:%l\/%L\ %P                           "show the linenumbers and the percentage
 	endif
 	if !exists('$TMUX') && g:StatusLineTime
-		highlight currentTime   ctermfg=red   ctermbg=black
+		highlight currentTime   ctermfg=red   ctermbg=black guifg=red guibg=black
 		set statusline+=\ %#currentTime#
 		set statusline+=%{strftime('%Y\ %b\ %d\ %a\ %H:%M')}\   "show date & time in the statusline
 	endif
@@ -413,6 +441,15 @@ function! ToggleNetrw()
 	endfor
 	if !l:wasOpen
 		silent Lexplore
+		"there has to be another way to go the the correct mode + displaying (r)nu
+		normal iiii
+		setlocal number
+		setlocal relativenumber
+
+		"if isdirectory("EnsProg/APPL_DLL/Application/")
+		"	echom "found application dir"
+		"	edit "EnsProg/APPL_DLL/Application/"
+		"endif
 	endif
 endfunction
 
@@ -431,30 +468,73 @@ function! NetRwMappings()
 	nnoremap <silent> <leader>V		:call OpenSelectedFileWith('belowright vnew')<CR>
 	nnoremap <silent> <leader>H		:call OpenSelectedFileWith('belowright new')<CR>
 	nnoremap <silent> <leader>T		:call OpenSelectedFileWith('tabedit')<CR>
+	nnoremap <silent> <leader><CR>	:call OpenSelectedFileWith('edit')<CR>
 endfunction
 nnoremap <silent>	<leader>ex	:call ToggleNetrw()<CR>
 
 autocmd filetype netrw call NetRwMappings()
+
+function! SwitchToRelatedFile(command, ...)
+	let l:CurrExtension = expand('%:e')
+	let l:CurrExtenstionIdx = 0
+	let l:ordered = []
+
+	let i = 0
+	for ext in a:000
+		if l:CurrExtension == ext
+			let l:CurrExtenstionIdx = i
+			break
+		endif
+		let i+=1
+	endfor
+
+	let i = (l:CurrExtenstionIdx + 1)%len(a:000)
+	while i != l:CurrExtenstionIdx
+		call add(l:ordered, get(a:000, i))
+		let i = (i+1)%len(a:000)
+	endwhile
+
+	for ext in ordered
+		let l:Path = findfile(expand('%:r') . "." . ext)
+		if("" != l:Path) | exec a:command . " " . l:Path | return | endif
+
+		let l:Path = findfile(expand('%:t:r') . "." . ext)
+		if("" != l:Path) | exec a:command . " " . l:Path |  return |endif
+	endfor
+
+	let l:CreateFile = input("file not found. Do you want to create it? ")
+	if(l:CreateFile[0] ==? 'y' )
+		let l:Path = input("path: ", expand('%:r') . "." .  ordered[0])
+		exec a:command . " " . l:Path
+	endif
+endfunction
+
+augroup EasySwitching
+	autocmd FileType c,cpp,h	nnoremap	<leader>ss	:call SwitchToRelatedFile("e", "c", "cpp", "h")<CR>
+	autocmd FileType c,cpp,h	nnoremap	<leader>sh	:call SwitchToRelatedFile("sp", "c", "cpp", "h")<CR>
+	autocmd FileType c,cpp,h	nnoremap	<leader>sv	:call SwitchToRelatedFile("vs", "c", "cpp", "h")<CR>
+	autocmd FileType c,cpp,h	nnoremap	<leader>st	:call SwitchToRelatedFile("tabe", "c", "cpp", "h")<CR>
+augroup end
 
 " easy project navigation
 function! GoToTopDirectory(command, fileInTopDir)
 	let l:separator = "/"
 	let l:prependPath = "/"
 	if has('win32')
-		let l:separtor = "\\"
+		let l:separator = "\\"
 		let l:prependPath = ""
 	endif
 	let l:SearchPath = split(getcwd(), l:separator)
-	let l:CurrIndex = -1
+	let l:currIndex = -1
 
-	while !filereadable(l:prependPath . join(l:SearchPath[:l:CurrIndex], l:separator) . l:separator . a:fileInTopDir)
-		let l:CurrIndex = l:CurrIndex - 1
-		if len(l:SearchPath) == -1 * l:CurrIndex
+	while !filereadable(l:prependPath . join(l:SearchPath[:l:currIndex], l:separator) . l:separator . a:fileInTopDir)
+		let l:currIndex=l:currIndex-1
+		if len(l:SearchPath) == -1 * l:currIndex
 			return
 		endif
 	endwhile
 
-	execute a:command l:prependPath . join(l:SearchPath[:l:CurrIndex], l:separator)
+	execute a:command l:prependPath . join(l:SearchPath[:l:currIndex], l:separator)
 endfunction
 
 if filereadable(".vimlocalconfig")
